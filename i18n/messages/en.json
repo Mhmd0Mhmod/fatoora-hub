@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "title": "Fatoora Hub | ZATCA-Compliant E-Invoicing",
+    "description": "An all-in-one cloud platform that connects your business or accounting system to Saudi e-invoicing (Phase 2), approved by ZATCA. A friendly dashboard for business owners and a fast, flexible API for developers."
+  },
+  "header": {
+    "brand": "Fatoora Hub",
+    "brandSub": "محور فاتورة",
+    "nav": {
+      "home": "Home",
+      "features": "Features",
+      "developers": "For Developers",
+      "pricing": "Pricing",
+      "faq": "FAQ"
+    },
+    "login": "Sign in",
+    "signup": "Start your free trial",
+    "menu": "Open menu",
+    "switchTo": "العربية",
+    "switchLabel": "Switch to Arabic"
+  },
+  "hero": {
+    "badge": "ZATCA-approved e-invoicing for Phase 2",
+    "titlePrefix": "E-invoicing and integration with",
+    "titleAccent": "ZATCA",
+    "titleSuffix": "Simple to use, fast to ship.",
+    "description": "One cloud platform to connect your business or accounting system to Saudi e-invoicing (Phase 2). A friendly dashboard for businesses, and a fast, flexible API for developers.",
+    "ctaPrimary": "Try it free today",
+    "ctaSecondary": "Explore pricing",
+    "highlights": [
+      "Activation and connection in under 5 minutes",
+      "100% compliant with ZATCA requirements",
+      "Admin dashboard for non-technical users + a dedicated API",
+      "Affordable plans with no hidden costs"
+    ]
+  },
+  "features": {
+    "eyebrow": "Why Fatoora Hub?",
+    "title": "Built around one promise: your simplicity",
+    "subtitle": "We know e-invoicing integration can feel overwhelming, so we designed our platform to save you time and effort — letting you focus on growing your business.",
+    "items": [
+      {
+        "title": "Absolute ease of use",
+        "description": "No technical or accounting expertise needed — everything is designed to be clear and straightforward."
+      },
+      {
+        "title": "Instant readiness with 99.9% uptime",
+        "description": "Highly secure cloud infrastructure that keeps your invoices issuing and printing without interruption."
+      },
+      {
+        "title": "Fully automated integration",
+        "description": "We automatically generate QR codes, digital signatures, and submissions to ZATCA with zero manual work."
+      },
+      {
+        "title": "All invoice types supported",
+        "description": "Simplified tax invoices (individuals and merchants) and standard invoices (B2B), plus credit and debit notes."
+      }
+    ]
+  },
+  "developers": {
+    "eyebrow": "For Developers (API)",
+    "title": "A simple API — add e-invoicing to your system today",
+    "subtitle": "A flexible platform that helps developers and software companies integrate with e-invoicing without integration headaches.",
+    "terminal": {
+      "title": "Up and running in minutes",
+      "lines": [
+        "curl -X POST https://api.fatoorahub.com/v1/invoices",
+        "{",
+        "  \"type\": \"simplified\"",
+        "}",
+        "→ 200 OK · QR + digital signature generated"
+      ]
+    },
+    "items": [
+      {
+        "title": "Seamless, fast integration",
+        "description": "Connect your accounting software, POS, or e-commerce store with minimal engineering effort."
+      },
+      {
+        "title": "No heavy lifting",
+        "description": "We handle encryption, government integration, and digital certificate management for you."
+      },
+      {
+        "title": "Blazing fast responses",
+        "description": "Real-time processing lets POS terminals print invoices instantly — no waiting."
+      },
+      {
+        "title": "Always up to date",
+        "description": "Automatic updates whenever ZATCA publishes new technical requirements."
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "title": "Competitive pricing with flexible plans for every business size",
+    "subtitle": "Pick the plan that fits your business, and upgrade at any time.",
+    "mostPopular": "Most popular",
+    "plans": [
+      {
+        "name": "Starter",
+        "price": "SAR 300 / month",
+        "description": "The ideal plan for startup businesses and new merchants looking for easy, affordable e-invoicing.",
+        "features": [
+          "1 entity (1 taxable person)",
+          "2,000 invoices per month",
+          "Full access to the cloud dashboard",
+          "REST API access",
+          "Support via tickets and WhatsApp",
+          "Continuous free updates"
+        ],
+        "cta": "Choose Starter"
+      },
+      {
+        "name": "Growth",
+        "price": "SAR 700 / month",
+        "description": "Built for advanced companies, multiple branches, and software providers.",
+        "popular": true,
+        "features": [
+          "Up to 5 entities (5 taxable persons)",
+          "20,000 invoices per month",
+          "Full access to the cloud dashboard",
+          "REST API access",
+          "Priority direct support",
+          "Advanced reports and alerts"
+        ],
+        "cta": "Choose Growth"
+      },
+      {
+        "name": "Enterprise",
+        "price": "Custom pricing",
+        "description": "For large platforms, high-volume merchants, and companies with massive invoice volumes.",
+        "features": [
+          "Custom entities and taxable persons (5+)",
+          "Custom invoice volumes (100,000+)",
+          "Dedicated servers and maximum throughput",
+          "Dedicated account and support manager"
+        ],
+        "cta": "Talk to sales"
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Answers to the most common questions",
+    "subtitle": "Learn the details of the platform, integration, and plans before you start.",
+    "items": [
+      {
+        "question": "Do I need to change my current accounting software?",
+        "answer": "No. You can keep using your software and connect it through our API, or use our dashboard directly as a standalone invoicing app."
+      },
+      {
+        "question": "How do you guarantee compliance with ZATCA?",
+        "answer": "The platform is designed and built to the technical and regulatory standards of Phase 2 e-invoicing — we generate digital signatures and codes and submit invoices to ZATCA seamlessly."
+      },
+      {
+        "question": "What does “number of taxable persons” mean?",
+        "answer": "A taxable person is a company or entity with its own independent tax number. Starter covers a single entity, while Growth lets you manage up to 5 different entities from one account."
+      },
+      {
+        "question": "What if I exceed my monthly invoice limit?",
+        "answer": "You can upgrade to a higher plan at any time, or buy additional invoice bundles at fair prices without any service interruption."
+      },
+      {
+        "question": "Is there a free trial?",
+        "answer": "Yes. Create an account and try the platform in a sandbox environment for free to make sure it's a good fit before you subscribe."
+      }
+    ]
+  },
+  "footer": {
+    "brand": "Fatoora Hub",
+    "brandSub": "محور فاتورة",
+    "brandDesc": "An all-in-one cloud platform for e-invoicing integration, built to the technical requirements of ZATCA (Saudi Zakat, Tax and Customs Authority).",
+    "linksTitle": "Quick links",
+    "links": [
+      { "label": "About", "href": "#features" },
+      { "label": "Features", "href": "#features" },
+      { "label": "Pricing", "href": "#pricing" },
+      { "label": "API docs", "href": "#developers" },
+      { "label": "Terms & conditions", "href": "#terms" },
+      { "label": "Privacy policy", "href": "#privacy" }
+    ],
+    "helpTitle": "Need a hand?",
+    "helpDesc": "Talk to our team for a free integration consultation and find the right fit for your business.",
+    "contact": "Contact us",
+    "rights": "© 2026 Fatoora Hub. All rights reserved."
+  }
+}
