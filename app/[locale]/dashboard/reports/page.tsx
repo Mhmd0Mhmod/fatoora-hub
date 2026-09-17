@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { BarChart3 } from "lucide-react";
 
-import { DashboardPage } from "@/components/layouts/dashboard-page";
-import { DashboardSection } from "@/components/layouts/dashboard-section";
+import { DashboardPage } from "@/features/dashboard/components/dashboard-page";
+import { DashboardSection } from "@/features/dashboard/components/dashboard-section";
 import {
   Empty,
   EmptyDescription,

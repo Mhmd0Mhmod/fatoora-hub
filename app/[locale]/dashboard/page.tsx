@@ -1,11 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { FileText, Monitor, Users, IdCard } from "lucide-react";
 
-import { DashboardPage } from "@/components/layouts/dashboard-page";
+import { DashboardPage } from "@/features/dashboard/components/dashboard-page";
 import {
   DashboardStat,
   DashboardStatGrid,
-} from "@/components/layouts/dashboard-stat";
+} from "@/features/dashboard/components/dashboard-stat";
 
 const stats = [
   { key: "invoices", icon: FileText },

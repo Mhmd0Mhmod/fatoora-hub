@@ -1,15 +1,15 @@
 import { User } from "@/features/auth/types";
-import api from "@/lib/api";
+import { nextApi } from "@/lib/next-api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useAuth() {
   const query = useQuery({
     queryKey: ["me"],
-    queryFn: () => api.get<User>("/auth/me"),
+    queryFn: async () => await nextApi.get<User>("/auth/me"),
+    select: (data) => data.data,
     retry: false,
   });
   const { data: user, isLoading, isError, error, refetch } = query;
-  console.log(query);
   const isAuthenticated = !!user;
 
   return {

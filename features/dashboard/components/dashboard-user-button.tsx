@@ -20,7 +20,6 @@ import {
 export default function DashboardUserButton() {
   const t = useTranslations("dashboard");
   const { user } = useAuth();
-  console.log(user);
   if (!user) return null;
 
   const initials = user.email.slice(0, 2).toUpperCase();

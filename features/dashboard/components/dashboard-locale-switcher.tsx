@@ -14,11 +14,7 @@ export default function DashboardLocaleSwitcher() {
 
   return (
     <Button variant="ghost" size="sm" asChild>
-      <Link
-        href={pathname}
-        locale={otherLocale}
-        aria-label={t("switchLabel")}
-      >
+      <Link href={pathname} locale={otherLocale} aria-label={t("switchLabel")}>
         <Globe className="size-4" />
         {t("switchTo")}
       </Link>

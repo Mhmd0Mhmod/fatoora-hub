@@ -40,7 +40,6 @@ export default function LoginForm() {
     mutationKey: ["login"],
     mutationFn: loginAction,
     onSuccess: (data, _, __, ctx) => {
-      console.log(data);
       toast.success(t("success"));
       router.replace("/dashboard");
       ctx.client.setQueryData(["me"], data);

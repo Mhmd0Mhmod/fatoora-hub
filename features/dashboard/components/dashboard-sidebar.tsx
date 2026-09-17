@@ -33,7 +33,6 @@ const mainItems = [
   { key: "overview", href: "/dashboard", icon: LayoutDashboard },
   { key: "invoices", href: "/dashboard/invoices", icon: FileText },
   { key: "clients", href: "/dashboard/clients", icon: Users },
-  { key: "taxExemptions", href: "/dashboard/tax-exemptions", icon: ShieldCheck },
   { key: "taxpayers", href: "/dashboard/taxpayers", icon: Building2 },
   { key: "devices", href: "/dashboard/devices", icon: Monitor },
   { key: "apiKeys", href: "/dashboard/api-keys", icon: KeyRound },

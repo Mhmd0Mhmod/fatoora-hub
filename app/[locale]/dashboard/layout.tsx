@@ -1,6 +1,6 @@
-import DashboardLocaleSwitcher from "@/components/layouts/dashboard-locale-switcher";
-import DashboardSidebar from "@/components/layouts/dashboard-sidebar";
-import DashboardUserButton from "@/components/layouts/dashboard-user-button";
+import DashboardLocaleSwitcher from "@/features/dashboard/components/dashboard-locale-switcher";
+import DashboardSidebar from "@/features/dashboard/components/dashboard-sidebar";
+import DashboardUserButton from "@/features/dashboard/components/dashboard-user-button";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
