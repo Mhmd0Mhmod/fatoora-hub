@@ -226,6 +226,40 @@
       "devices": "الأجهزة",
       "taxpayers": "المُكلفون"
     },
+    "invoices": {
+      "searchLabel": "ابحث في الفواتير",
+      "searchPlaceholder": "ابحث برقم الفاتورة…",
+      "allStatuses": "كل الحالات",
+      "allTypes": "كل الأنواع",
+      "clearFilters": "مسح التصفية",
+      "colNumber": "رقم الفاتورة",
+      "colType": "النوع",
+      "colStatus": "الحالة",
+      "colIssued": "تاريخ الإصدار",
+      "colAttempts": "المحاولات",
+      "emptyTitle": "لا توجد فواتير",
+      "emptyDescription": "جرّب تعديل البحث أو عوامل التصفية.",
+      "errorTitle": "تعذّر تحميل الفواتير",
+      "errorDescription": "تعذّر جلب فواتيرك حاليًا. يرجى المحاولة مرة أخرى بعد قليل.",
+      "previous": "السابق",
+      "next": "التالي",
+      "showing": "عرض {from}–{to} من {total}",
+      "status": {
+        "Pending": "قيد الانتظار",
+        "Reported": "مبلّغة",
+        "Rejected": "مرفوضة",
+        "Cleared": "مقاصّة",
+        "Failed": "فاشلة"
+      },
+      "type": {
+        "Standard": "قياسية",
+        "Simplified": "مبسطة",
+        "StandardCreditNote": "إشعار دائن قياسي",
+        "StandardDebitNote": "إشعار مدين قياسي",
+        "SimplifiedCreditNote": "إشعار دائن مبسط",
+        "SimplifiedDebitNote": "إشعار مدين مبسط"
+      }
+    },
     "pages": {
       "invoices": {
         "title": "الفواتير",

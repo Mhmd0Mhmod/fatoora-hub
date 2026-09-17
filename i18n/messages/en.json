@@ -226,6 +226,40 @@
       "devices": "Devices",
       "taxpayers": "Taxpayers"
     },
+    "invoices": {
+      "searchLabel": "Search invoices",
+      "searchPlaceholder": "Search by invoice number…",
+      "allStatuses": "All statuses",
+      "allTypes": "All types",
+      "clearFilters": "Clear filters",
+      "colNumber": "Invoice number",
+      "colType": "Type",
+      "colStatus": "Status",
+      "colIssued": "Issued at",
+      "colAttempts": "Attempts",
+      "emptyTitle": "No invoices found",
+      "emptyDescription": "Try adjusting your search or filters.",
+      "errorTitle": "Couldn't load invoices",
+      "errorDescription": "We couldn't fetch your invoices right now. Please try again in a moment.",
+      "previous": "Previous",
+      "next": "Next",
+      "showing": "Showing {from}–{to} of {total}",
+      "status": {
+        "Pending": "Pending",
+        "Reported": "Reported",
+        "Rejected": "Rejected",
+        "Cleared": "Cleared",
+        "Failed": "Failed"
+      },
+      "type": {
+        "Standard": "Standard",
+        "Simplified": "Simplified",
+        "StandardCreditNote": "Standard credit note",
+        "StandardDebitNote": "Standard debit note",
+        "SimplifiedCreditNote": "Simplified credit note",
+        "SimplifiedDebitNote": "Simplified debit note"
+      }
+    },
     "pages": {
       "invoices": {
         "title": "Invoices",

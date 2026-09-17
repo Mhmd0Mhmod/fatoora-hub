@@ -10,7 +10,6 @@ import {
   LifeBuoy,
   Monitor,
   Settings,
-  ShieldCheck,
   Sparkles,
   Users,
 } from "lucide-react";
