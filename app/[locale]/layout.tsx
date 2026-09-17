@@ -6,7 +6,7 @@ import { routing } from "@/i18n/routing";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NextIntlClientProvider } from "next-intl";
 import { Cairo, JetBrains_Mono, Tenor_Sans } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 const fontSans = Cairo({
   subsets: ["latin", "arabic"],
   variable: "--font-sans",

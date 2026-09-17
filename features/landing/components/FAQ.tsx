@@ -31,12 +31,12 @@ export default async function FAQ() {
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="space-y-4">
+        <Accordion type="single" collapsible className="border-none space-y-4">
           {items.map((faq, index) => (
             <AccordionItem
               key={faq.question}
               value={`item-${index}`}
-              className="rounded-2xl border bg-background px-6 shadow-sm"
+              className="rounded-2xl  bg-background px-6 shadow-sm"
             >
               <AccordionTrigger className="text-start text-base font-semibold hover:no-underline">
                 {faq.question}
