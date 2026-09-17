@@ -203,6 +203,20 @@
       }
     }
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "An overview of your e-invoicing activity.",
+    "sidebar": {
+      "main": "Main",
+      "overview": "Overview",
+      "invoices": "Invoices",
+      "clients": "Clients",
+      "reports": "Reports",
+      "account": "Account",
+      "settings": "Settings",
+      "support": "Support"
+    }
+  },
   "footer": {
     "brand": "Fatoora Hub",
     "brandSub": "محور فاتورة",

@@ -203,6 +203,20 @@
       }
     }
   },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "نظرة عامة على نشاط الفوترة الإلكترونية لديك.",
+    "sidebar": {
+      "main": "القائمة الرئيسية",
+      "overview": "نظرة عامة",
+      "invoices": "الفواتير",
+      "clients": "العملاء",
+      "reports": "التقارير",
+      "account": "الحساب",
+      "settings": "الإعدادات",
+      "support": "الدعم"
+    }
+  },
   "footer": {
     "brand": "فاتورة هاب",
     "brandSub": "Fatoora Hub",
