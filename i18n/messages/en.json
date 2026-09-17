@@ -290,6 +290,22 @@
         "subtitle": "View and manage taxpayer information."
       }
     },
+    "taxpayers": {
+      "searchLabel": "Search taxpayers",
+      "searchPlaceholder": "Search by name, VAT or CRN…",
+      "clearFilters": "Clear search",
+      "colName": "Legal name",
+      "colVat": "VAT",
+      "colCrn": "CRN",
+      "colVatGroup": "VAT group",
+      "colCity": "City",
+      "colDevices": "Devices",
+      "vatGroup": "VAT group",
+      "emptyTitle": "No taxpayers found",
+      "emptyDescription": "Try a different search term.",
+      "errorTitle": "Couldn't load taxpayers",
+      "errorDescription": "We couldn't fetch your taxpayers right now. Please try again in a moment."
+    },
     "empty": {
       "title": "Nothing here yet",
       "description": "This section is under construction and will be filled in soon."

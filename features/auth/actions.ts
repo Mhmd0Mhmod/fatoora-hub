@@ -20,7 +20,7 @@ export async function loginAction(data: LoginInput) {
         path: "/",
         httpOnly: true,
         sameSite: "lax",
-        ...(process.env.NODE_ENV === "production" ? { secure: true } : {}),
+        secure: true,
       });
     }
   }
