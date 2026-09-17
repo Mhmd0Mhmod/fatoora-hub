@@ -1,8 +1,9 @@
+import { routing } from "@/i18n/routing";
+import { NextIntlClientProvider } from "next-intl";
 import { Cairo, JetBrains_Mono, Tenor_Sans } from "next/font/google";
 import "./globals.css";
-import { NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
-import { routing } from "@/i18n/routing";
+import { Toaster } from "@/components/ui/sonner";
+import { DirectionProvider } from "@/components/ui/direction";
 
 const fontSans = Cairo({
   subsets: ["latin", "arabic"],
@@ -32,8 +33,6 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  setRequestLocale(locale);
-
   const direction = locale === "ar" ? "rtl" : "ltr";
 
   return (
@@ -41,7 +40,10 @@ export default async function RootLayout({
       <body
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
       >
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <DirectionProvider dir={direction} direction={direction}>
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        </DirectionProvider>
+        <Toaster />
       </body>
     </html>
   );
