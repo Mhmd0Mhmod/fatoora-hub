@@ -14,32 +14,39 @@ Arabic-first app for "FatooraHub (محور فاتورة)". Next.js 16.3.5 + Reac
 
 ## Commands
 - Use `bun` everywhere (`packageManager: bun@1.4.2`, `bun.lock`). No npm/yarn.
-- Scripts: `bun run dev`, `bun run build`, `bun run lint`. No tests, no test/CI setup. Typecheck with `bunx tsc --noEmit` (currently passes).
-- `bun run lint` currently fails with 1 pre-existing error in `hooks/use-mobile.ts` (`react-hooks/set-state-in-effect`, a shadcn sidebar helper) — ignore unless you touch that file.
+- Scripts: `bun run dev`, `bun run build`, `bun run lint`. Typecheck: `bunx tsc --noEmit` (currently passes). No tests, no CI.
+- `bun run lint` currently fails: pre-existing error in `hooks/use-mobile.ts` (`react-hooks/set-state-in-effect`, a shadcn sidebar helper) plus a warning in `features/auth/components/login-form.tsx` (unused `AxiosError` import). Ignore both unless you touch those files.
 
 ## Architecture — server-rendered, NOT static export
-- `next.config.ts` has **no `output: "export"`** — that was removed (commit "fix locale issues") in favor of a dynamic build. Do **not** re-add it: `cacheComponents: true` (PPR) errors in export mode. Keep `cacheComponents`, `partialPrefetching`, `reactCompiler`, and `experimental.turbopackRustReactCompiler` as-is.
-- Locale negotiation runs in **`proxy.ts` at project root** (Next 16 renamed Middleware → Proxy; verified in `node_modules/next/dist/docs/01-app/01-getting-started/16-proxy.md`). It's the next-intl middleware, driving all locale routing.
+- `next.config.ts` has **no `output: "export"`** — don't add it: `cacheComponents: true` (PPR) errors in export mode. Keep `cacheComponents`, `partialPrefetching`, `reactCompiler`, and `experimental.turbopackRustReactCompiler` as-is.
+- Locale negotiation runs in **`proxy.ts` at project root** (Next 16 renamed Middleware → Proxy). It's the next-intl middleware, driving all locale routing.
 - There is **no `app/layout.tsx` or `app/page.tsx`** — `[locale]` is a root param. `i18n/request.ts` reads the locale via `next/root-params` (`rootParams.locale()`); using `next/root-params` here is correct and must stay (a root pass-through layout would break the build).
 - All routes are locale-prefixed (`localePrefix: "always"` in `i18n/routing.ts`): `/en`, `/ar`. The proxy redirects bare `/`.
 - `createNextIntlPlugin()` in `next.config.ts` is called with no args → resolves `./i18n/request.ts` by convention.
-- Use the wrappers in `i18n/navigation.ts` (`Link`, `redirect`, `useRouter`, `getPathname`) for links/navigation, not `next/navigation`, so locale prefixes apply.
-- Static shell + streaming (PPR): `app/[locale]/layout.tsx` uses `generateStaticParams` + `setRequestLocale` (in `app/[locale]/page.tsx` too); set `lang`/`dir` on `<html>` from locale (no hardcoded `dir="rtl"` in components).
+- Use the wrappers in `i18n/navigation.ts` (`Link`, `redirect`, `usePathname`, `useRouter`, `getPathname`) for all links/navigation, **not** `next/navigation` or plain `/path` strings, so locale prefixes apply.
+- Static shell + streaming (PPR): `app/[locale]/layout.tsx` uses `generateStaticParams` + `setRequestLocale`; set `lang`/`dir` on `<html>` from locale (no hardcoded `dir="rtl"` in components). RTL components instead use logical props / Radix `Direction` via `components/ui/direction.tsx` (wraps the app in `app/[locale]/layout.tsx`).
 - SEO metadata is per-page via `generateMetadata` in `app/[locale]/page.tsx` (localized title/description, canonical, hreflang alternates).
-- All content lives in `i18n/messages/{en,ar}.json`, namespaced per section (header/hero/features/developers/pricing/faq/footer/meta), read with `useTranslations` (client) / `getTranslations` + `t.raw(...)` for arrays (server).
+- All content lives in `i18n/messages/{en,ar}.json`, namespaced per section (header/hero/features/developers/pricing/faq/footer/dashboard/auth/meta), read with `useTranslations` (client) / `getTranslations` + `t.raw(...)` for arrays (server).
+- `app/not-found.tsx` sits **outside** `[locale]` — rendered 404s are hardcoded English with no i18n.
 
 ## API / auth layer
-- `lib/api.ts` and `lib/api-auth.ts` are axios clients whose base is `${process.env.NEXT_PUBLIC_NET_API}/api`. **Requires `.env.local`** with `NEXT_PUBLIC_NET_API` (e.g. `https://fatoorahub.runasp.net`). `.env.local` is gitignored — a fresh clone must recreate it or API calls break.
-- `lib/api-auth.ts` adds a request interceptor that reads the `token` cookie via `cookies-next/server` `getCookie` and sets `Authorization: Bearer …` (server-side only).
-- Auth scaffolding in `features/auth/` (`types.ts`, zod `validators.ts` — note the misspelled filename `vaildators.ts` if you reference it) + form libs (`react-hook-form`, `zod`, `@hookform/resolvers`).
-- Auth pages are stubs under `app/[locale]/(auth)/`: `login`/`register` currently render a literal `"page"`.
+- `lib/api.ts` → `${NEXT_PUBLIC_NET_API}/api/v1` (axios, `withCredentials` + `fetchOptions.credentials: "include"`). `lib/api-auth.ts` → `${NEXT_PUBLIC_NET_API}/api` with an interceptor that adds `Authorization: Bearer` from the `token` cookie via `cookies-next/server`. **Requires `.env.local`** with `NEXT_PUBLIC_NET_API` (e.g. `https://fatoorahub.runasp.net`); gitignored, a fresh clone must recreate it.
+- Auth is **server-action based**, not client axios: `features/auth/actions.ts` `loginAction` POSTs `/auth/login` through `lib/api.ts`, then copies the response `Set-Cookie` header entries into the cookie store (`httpOnly`, `secure` in prod). The resulting session cookie is `token`.
+- `features/auth/`: `types.ts` (`User`), `vaildators.ts` (**note the misspelled filename**), `components/login-form.tsx` (react-hook-form + zod + React Query `useMutation`; on success seeds the `["me"]` cache and `router.replace("/dashboard")`).
+- React Query is wired app-wide: `context/QueryContext.tsx` wraps the layout. `hooks/use-auth.ts` fetches `queryKey: ["me"]` → `/auth/me`.
+- Auth routes: `/login` is fully built; `/signup` is a stub. Split-panel shell in `app/[locale]/(auth)/layout.tsx`.
+
+## Dashboard
+- `app/[locale]/dashboard/layout.tsx`: `SidebarProvider` shell driven by `components/layouts/dashboard-sidebar.tsx` (a client component picking `side` from the locale, active-item logic via `pathname.startsWith`).
+- Static page-layout kit in `components/layouts/` (server components, no interactivity): `DashboardPage`/`DashboardPageHeader` (title/subtitle/actions + padded container), `DashboardSection` (Card wrapper with optional title/description/action), `DashboardStat`/`DashboardStatGrid` (responsive stat cards). Use these for dashboard pages instead of hand-rolling headers/cards.
+- Sub-pages (`/dashboard/api-keys`, `clients`, `devices`, `invoices`, `reports`, `tax-exemptions`, `taxpayers`) are placeholder stubs (empty state) composed from the layout kit. The sidebar also links to `/dashboard/settings` and `/dashboard/support`, which have no pages yet. Localized via the `dashboard` namespace (`pages.*`, `stats.*`, `empty.*` alongside `title`/`subtitle`/`sidebar`).
 
 ## Styling and structure
-- Tailwind v4, CSS-first: tokens live in `app/[locale]/globals.css` (`@import "tailwindcss"` + `shadcn/tailwind.css` + `tw-animate-css`; dark mode via `@custom-variant dark`). No `tailwind.config`. Custom `@utility` helpers there: `bg-grid-light`, `bg-grid-dark`, `text-gradient-teal`, `text-gradient-dark`.
-- `components.json` is stale: it points shadcn CLI's CSS at `app/globals.css`, but the real file is `app/[locale]/globals.css` — `shadcn add` appends tokens to the wrong path; merge manually.
-- shadcn/ui style `radix-nova`, `"rtl": true`, lucide icons, consolidated `radix-ui` package (e.g. `import { Direction } from "radix-ui"`). `cn` is re-exported from the `cn` npm package at `lib/utils.ts` (not clsx+tailwind-merge).
-- Path alias `@/*` → repo root. Page sections in `features/landing/components/` (Header, Hero, Pricing, FAQ, …), reusable UI in `components/ui/` (`components/ui/sidebar.tsx` is the latest), other hooks in `hooks/`.
-- `app/[locale]/layout.tsx` loads Google fonts (Cairo, Tenor Sans, JetBrains Mono) via `next/font`; they're fetched at build time, so offline builds fail.
+- Tailwind v4, CSS-first. Tokens live in **`app/globals.css`** (imported from `app/[locale]/layout.tsx` via `../globals.css`): `@import "tailwindcss"` + `@import "shadcn/tailwind.css"` (the shadcn theme ships from the `shadcn` npm package — `node_modules/shadcn/dist/tailwind.css`, a runtime import, not just a CLI) + `tw-animate-css`; dark mode via `@custom-variant dark`. **No `tailwind.config`.**
+- Gotcha: decorative classes `bg-grid-light`, `bg-grid-dark`, `text-gradient-teal`, `text-gradient-dark` are used throughout the landing/auth UI but defined nowhere in the repo (search `app/globals.css` and the shadcn import) → they render as no-ops under Tailwind v4.
+- `components.json`: `"style": "radix-vega"`, `"rtl": true`, CSS path `app/globals.css` (that path is correct — don't move it to `[locale]`), lucide icons, consolidated `radix-ui` package (e.g. `import { Direction } from "radix-ui"`). `cn` is re-exported from the `cn` npm package at `lib/utils.ts` (not clsx+tailwind-merge).
+- Path alias `@/*` → repo root. Landing sections in `features/landing/components/`, reusable UI in `components/ui/` (`components/ui/sidebar.tsx` is the latest shadcn add), feature folders under `features/` (e.g. `features/clients/` is empty scaffolding), hooks in `hooks/`.
+- Fonts: `next/font/google` (Cairo, Tenor Sans, JetBrains Mono) fetched at build time, so offline `bun run build` fails.
 
 ## Design notes
 - Modern teal/cyan scheme (`oklch` teal tokens in `globals.css`): dark hero, slate developers section, gradient accents; brand name is "محور فاتورة / Fatoora Hub".

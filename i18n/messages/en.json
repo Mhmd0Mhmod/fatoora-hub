@@ -211,10 +211,57 @@
       "overview": "Overview",
       "invoices": "Invoices",
       "clients": "Clients",
+      "taxExemptions": "Tax Exemptions",
+      "taxpayers": "Taxpayers",
+      "devices": "Devices",
+      "apiKeys": "API Keys",
       "reports": "Reports",
       "account": "Account",
       "settings": "Settings",
       "support": "Support"
+    },
+    "stats": {
+      "invoices": "Invoices",
+      "clients": "Clients",
+      "devices": "Devices",
+      "taxpayers": "Taxpayers"
+    },
+    "pages": {
+      "invoices": {
+        "title": "Invoices",
+        "subtitle": "Review and manage all your e-invoices in one place."
+      },
+      "clients": {
+        "title": "Clients",
+        "subtitle": "Manage your clients and their invoicing details."
+      },
+      "reports": {
+        "title": "Reports",
+        "subtitle": "Reports and insights about your e-invoicing activity."
+      },
+      "apiKeys": {
+        "title": "API Keys",
+        "subtitle": "Generate and rotate the keys used to access our API."
+      },
+      "devices": {
+        "title": "Devices",
+        "subtitle": "Manage the POS devices linked to your account."
+      },
+      "taxExemptions": {
+        "title": "Tax Exemptions",
+        "subtitle": "Add and manage your tax exemption certificates."
+      },
+      "taxpayers": {
+        "title": "Taxpayers",
+        "subtitle": "View and manage taxpayer information."
+      }
+    },
+    "empty": {
+      "title": "Nothing here yet",
+      "description": "This section is under construction and will be filled in soon."
+    },
+    "user": {
+      "logout": "Log out"
     }
   },
   "footer": {
