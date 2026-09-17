@@ -4,6 +4,7 @@ import { Cairo, JetBrains_Mono, Tenor_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { DirectionProvider } from "@/components/ui/direction";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const fontSans = Cairo({
   subsets: ["latin", "arabic"],
@@ -41,7 +42,9 @@ export default async function RootLayout({
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
       >
         <DirectionProvider dir={direction} direction={direction}>
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </NextIntlClientProvider>
         </DirectionProvider>
         <Toaster />
       </body>
