@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 import Developers from "@/features/landing/components/Developers";
 import FAQ from "@/features/landing/components/FAQ";
@@ -35,10 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function HomePage({ params }: Props) {
-  const { locale } = await params;
-  setRequestLocale(locale);
-
+export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background font-sans">
       <Header />

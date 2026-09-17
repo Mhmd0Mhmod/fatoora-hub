@@ -166,6 +166,43 @@
       }
     ]
   },
+  "auth": {
+    "layout": {
+      "tagline": "E-invoicing made simple,",
+      "taglineAccent": "approved by ZATCA.",
+      "description": "Connect your business to Saudi e-invoicing (Phase 2) with a dashboard anyone can use and an API developers love.",
+      "points": [
+        "ZATCA-approved platform for Phase 2",
+        "Go live in under 5 minutes",
+        "QR codes, digital signatures & submissions — fully automated"
+      ],
+      "backHome": "Back to home"
+    },
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your Fatoora Hub account.",
+      "email": "Email address",
+      "emailPlaceholder": "you@company.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "success": "Signed in successfully",
+      "noAccount": "Don't have an account?",
+      "signup": "Start for free",
+      "errors": {
+        "emailRequired": "Email is required",
+        "invalidEmail": "Enter a valid email address",
+        "passwordMin": "Password must be at least 6 characters",
+        "invalidCredentials": "Incorrect email or password",
+        "requestFailed": "Something went wrong, please try again"
+      }
+    }
+  },
   "footer": {
     "brand": "Fatoora Hub",
     "brandSub": "محور فاتورة",

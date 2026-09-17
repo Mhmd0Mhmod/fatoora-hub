@@ -1,11 +1,12 @@
+import { DirectionProvider } from "@/components/ui/direction";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import QueryContext from "@/context/QueryContext";
 import { routing } from "@/i18n/routing";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NextIntlClientProvider } from "next-intl";
 import { Cairo, JetBrains_Mono, Tenor_Sans } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import { DirectionProvider } from "@/components/ui/direction";
-import { TooltipProvider } from "@/components/ui/tooltip";
-
 const fontSans = Cairo({
   subsets: ["latin", "arabic"],
   variable: "--font-sans",
@@ -43,7 +44,10 @@ export default async function RootLayout({
       >
         <DirectionProvider dir={direction} direction={direction}>
           <NextIntlClientProvider>
-            <TooltipProvider>{children}</TooltipProvider>
+            <QueryContext>
+              <TooltipProvider>{children}</TooltipProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryContext>
           </NextIntlClientProvider>
         </DirectionProvider>
         <Toaster />

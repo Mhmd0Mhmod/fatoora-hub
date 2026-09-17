@@ -8,32 +8,39 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# FatooraLink
+# FatooraHub
 
-Arabic-first landing site for "FatooraHub (محور فاتورة)". Next.js 16 + React 19 + Tailwind v4, internationalized with **next-intl v4**, built as a **static export** for SEO (`next.config.ts` has `output: "export"`; output lands in `out/`).
+Arabic-first app for "FatooraHub (محور فاتورة)". Next.js 16.3.5 + React 19 + Tailwind v4, internationalized with **next-intl v4**, server-rendered with **Partial Prerendering**. Front-end talks to a .NET backend at `NEXT_PUBLIC_NET_API`.
 
 ## Commands
 - Use `bun` everywhere (`packageManager: bun@1.4.2`, `bun.lock`). No npm/yarn.
-- Available scripts: `bun run dev`, `bun run build`, `bun run lint` (flat-config eslint). No tests, no typecheck script, no CI. (Verify typecheck with `bunx tsc --noEmit`.)
+- Scripts: `bun run dev`, `bun run build`, `bun run lint`. No tests, no test/CI setup. Typecheck with `bunx tsc --noEmit` (currently passes).
+- `bun run lint` currently fails with 1 pre-existing error in `hooks/use-mobile.ts` (`react-hooks/set-state-in-effect`, a shadcn sidebar helper) — ignore unless you touch that file.
 
-## Static export architecture (no server, no middleware)
-- `next.config.ts` sets `output: "export"`. **`cacheComponents` and `partialPrefetching` must stay off** — `cacheComponents` enables PPR, which errors at build ("PPR cannot be enabled in export mode").
-- There is **no `proxy.ts`/`middleware.ts`** — static export can't run middleware. The next-intl middleware was deleted in favor of statically generated locale routes.
-- All routes are locale-prefixed (`localePrefix: "always"` in `i18n/routing.ts`): `/en`, `/ar`. The root `/` is handled by `app/page.tsx` (redirects to `/en`) with a pass-through root layout `app/layout.tsx` (needed because `app/[locale]/layout.tsx` renders `<html>`, and without `app/layout.tsx` the `[locale]` segment is a root param — which breaks the build after the root layout is added).
-- `createNextIntlPlugin()` in `next.config.ts` is called with no args → it resolves `./i18n/request.ts` by convention.
-- `i18n/request.ts` reads the locale from the `requestLocale` getter (set via `setRequestLocale` in `app/[locale]/layout.tsx`), **not** from `next/root-params`. Importing `next/root-params` fails the build now that `app/layout.tsx` exists.
-- For links/navigation use the wrappers in `i18n/navigation.ts` (`Link`, `redirect`, `useRouter`, `getPathname`), not `next/navigation`, so locale prefixes apply.
-- SEO metadata is per-page via `generateMetadata` in `app/[locale]/page.tsx` (localized title/description, canonical, hreflang alternates). `tools/`-free: `routing.locales` drives `generateStaticParams` in `app/[locale]/layout.tsx`.
-- All content lives in `i18n/messages/{en,ar}.json` (namespaced per section: header/hero/features/developers/pricing/faq/footer/meta) and is read with `useTranslations` (client) / `getTranslations` + `t.raw(...)` for arrays (server). `app/[locale]/layout.tsx` sets `lang`/`dir` from the locale — there are no more hardcoded `dir="rtl"` attributes in components.
+## Architecture — server-rendered, NOT static export
+- `next.config.ts` has **no `output: "export"`** — that was removed (commit "fix locale issues") in favor of a dynamic build. Do **not** re-add it: `cacheComponents: true` (PPR) errors in export mode. Keep `cacheComponents`, `partialPrefetching`, `reactCompiler`, and `experimental.turbopackRustReactCompiler` as-is.
+- Locale negotiation runs in **`proxy.ts` at project root** (Next 16 renamed Middleware → Proxy; verified in `node_modules/next/dist/docs/01-app/01-getting-started/16-proxy.md`). It's the next-intl middleware, driving all locale routing.
+- There is **no `app/layout.tsx` or `app/page.tsx`** — `[locale]` is a root param. `i18n/request.ts` reads the locale via `next/root-params` (`rootParams.locale()`); using `next/root-params` here is correct and must stay (a root pass-through layout would break the build).
+- All routes are locale-prefixed (`localePrefix: "always"` in `i18n/routing.ts`): `/en`, `/ar`. The proxy redirects bare `/`.
+- `createNextIntlPlugin()` in `next.config.ts` is called with no args → resolves `./i18n/request.ts` by convention.
+- Use the wrappers in `i18n/navigation.ts` (`Link`, `redirect`, `useRouter`, `getPathname`) for links/navigation, not `next/navigation`, so locale prefixes apply.
+- Static shell + streaming (PPR): `app/[locale]/layout.tsx` uses `generateStaticParams` + `setRequestLocale` (in `app/[locale]/page.tsx` too); set `lang`/`dir` on `<html>` from locale (no hardcoded `dir="rtl"` in components).
+- SEO metadata is per-page via `generateMetadata` in `app/[locale]/page.tsx` (localized title/description, canonical, hreflang alternates).
+- All content lives in `i18n/messages/{en,ar}.json`, namespaced per section (header/hero/features/developers/pricing/faq/footer/meta), read with `useTranslations` (client) / `getTranslations` + `t.raw(...)` for arrays (server).
+
+## API / auth layer
+- `lib/api.ts` and `lib/api-auth.ts` are axios clients whose base is `${process.env.NEXT_PUBLIC_NET_API}/api`. **Requires `.env.local`** with `NEXT_PUBLIC_NET_API` (e.g. `https://fatoorahub.runasp.net`). `.env.local` is gitignored — a fresh clone must recreate it or API calls break.
+- `lib/api-auth.ts` adds a request interceptor that reads the `token` cookie via `cookies-next/server` `getCookie` and sets `Authorization: Bearer …` (server-side only).
+- Auth scaffolding in `features/auth/` (`types.ts`, zod `validators.ts` — note the misspelled filename `vaildators.ts` if you reference it) + form libs (`react-hook-form`, `zod`, `@hookform/resolvers`).
+- Auth pages are stubs under `app/[locale]/(auth)/`: `login`/`register` currently render a literal `"page"`.
 
 ## Styling and structure
-- Tailwind v4, CSS-first: tokens live in `app/[locale]/globals.css` (`@import "tailwindcss"` + `shadcn/tailwind.css` + `tw-animate-css`; dark mode via `@custom-variant dark`). No `tailwind.config`. Custom `@utility` helpers (`bg-grid-light`, `bg-grid-dark`, `text-gradient-teal`, `text-gradient-dark`) are also defined there.
-- shadcn/ui config in `components.json`: style `radix-nova`, `"rtl": true`, lucide icons, and the consolidated `radix-ui` package (e.g. `import { Direction } from "radix-ui"`).
-- `cn` is re-exported from the `cn` npm package at `lib/utils.ts` (not clsx+tailwind-merge). Import from `@/lib/utils`.
-- Path alias `@/*` maps to the repo root.
-- Page sections live in `features/landing/components/` (Header, Hero, Pricing, FAQ, …); reusable UI in `components/ui/`. New pages/components should follow this split.
-- `layout.tsx` loads Google fonts (Cairo, Tenor Sans, JetBrains Mono) via `next/font`; `bun run build` fetches them at build time, so offline builds fail.
+- Tailwind v4, CSS-first: tokens live in `app/[locale]/globals.css` (`@import "tailwindcss"` + `shadcn/tailwind.css` + `tw-animate-css`; dark mode via `@custom-variant dark`). No `tailwind.config`. Custom `@utility` helpers there: `bg-grid-light`, `bg-grid-dark`, `text-gradient-teal`, `text-gradient-dark`.
+- `components.json` is stale: it points shadcn CLI's CSS at `app/globals.css`, but the real file is `app/[locale]/globals.css` — `shadcn add` appends tokens to the wrong path; merge manually.
+- shadcn/ui style `radix-nova`, `"rtl": true`, lucide icons, consolidated `radix-ui` package (e.g. `import { Direction } from "radix-ui"`). `cn` is re-exported from the `cn` npm package at `lib/utils.ts` (not clsx+tailwind-merge).
+- Path alias `@/*` → repo root. Page sections in `features/landing/components/` (Header, Hero, Pricing, FAQ, …), reusable UI in `components/ui/` (`components/ui/sidebar.tsx` is the latest), other hooks in `hooks/`.
+- `app/[locale]/layout.tsx` loads Google fonts (Cairo, Tenor Sans, JetBrains Mono) via `next/font`; they're fetched at build time, so offline builds fail.
 
 ## Design notes
-- Modern teal/cyan scheme: dark hero (`bg-[#07251f]`), `slate-950` developers section, gradient accents; brand name is "محور فاتورة / Fatoora Hub".
-- Headers/anchors use plain `<a href="#...">` for in-page jumps; cross-page links (`/login`, `/signup`) use the next-intl `Link` (locale-prefixed).
+- Modern teal/cyan scheme (`oklch` teal tokens in `globals.css`): dark hero, slate developers section, gradient accents; brand name is "محور فاتورة / Fatoora Hub".
+- In-page jumps use plain `<a href="#...">`; cross-page links (`/login`, `/signup`) use the next-intl `Link` (locale-prefixed).
