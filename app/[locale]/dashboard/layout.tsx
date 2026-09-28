@@ -7,21 +7,26 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Suspense } from "react";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <DashboardSidebar />
+      <Suspense>
+        <DashboardSidebar />
+      </Suspense>
       <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger />
-          <Separator orientation="vertical" />
-          <div className="ms-auto flex items-center gap-1">
-            <DashboardLocaleSwitcher />
-            <DashboardUserButton />
-          </div>
-        </header>
-        <div className="flex flex-1 flex-col">{children}</div>
+        <Suspense>
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger />
+            <Separator orientation="vertical" />
+            <div className="ms-auto flex items-center gap-1">
+              <DashboardLocaleSwitcher />
+              <DashboardUserButton />
+            </div>
+          </header>
+          <div className="flex flex-1 flex-col">{children}</div>
+        </Suspense>
       </SidebarInset>
     </SidebarProvider>
   );

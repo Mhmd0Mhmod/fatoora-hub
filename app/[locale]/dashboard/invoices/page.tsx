@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { DashboardPageLayout } from "@/features/dashboard/components/dashboard-page-layout";
-import InvoicesView from "@/features/dashboard/components/invoices-view";
+import InvoicesView from "@/features/invoices/components/invoices-view";
 
 export default async function InvoicesPage() {
   const t = await getTranslations("dashboard.pages.invoices");

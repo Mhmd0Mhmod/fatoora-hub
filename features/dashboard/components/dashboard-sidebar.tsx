@@ -4,14 +4,13 @@ import { useLocale, useTranslations } from "next-intl";
 import {
   BarChart3,
   Building2,
+  FileCheck2,
   FileText,
   KeyRound,
   LayoutDashboard,
   LifeBuoy,
-  Monitor,
   Settings,
   Sparkles,
-  Users,
 } from "lucide-react";
 
 import { Link, usePathname } from "@/i18n/navigation";
@@ -31,9 +30,7 @@ import {
 const mainItems = [
   { key: "overview", href: "/dashboard", icon: LayoutDashboard },
   { key: "invoices", href: "/dashboard/invoices", icon: FileText },
-  { key: "clients", href: "/dashboard/clients", icon: Users },
   { key: "taxpayers", href: "/dashboard/taxpayers", icon: Building2 },
-  { key: "devices", href: "/dashboard/devices", icon: Monitor },
   { key: "apiKeys", href: "/dashboard/api-keys", icon: KeyRound },
   { key: "reports", href: "/dashboard/reports", icon: BarChart3 },
 ] as const;

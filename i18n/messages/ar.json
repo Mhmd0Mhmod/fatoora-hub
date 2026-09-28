@@ -224,7 +224,111 @@
       "invoices": "الفواتير",
       "clients": "العملاء",
       "devices": "الأجهزة",
-      "taxpayers": "المُكلفون"
+      "taxpayers": "المُكلفون",
+      "passRate": "نسبة النجاح"
+    },
+    "overview": {
+      "today": "اليوم",
+      "currentCycle": "الدورة الحالية",
+      "errorTitle": "تعذّر تحميل لوحة المعلومات",
+      "errorDescription": "تعذّر جلب ملخص لوحة المعلومات حاليًا. يرجى المحاولة مرة أخرى بعد قليل.",
+      "wallet": {
+        "title": "المحفظة",
+        "description": "خطتك الحالية وحصة الفواتير.",
+        "monthlyAvailable": "المتاح",
+        "monthlyQuota": "الحصة الشهرية",
+        "topUpAvailable": "الرصيد الإضافي",
+        "cycleEnds": "نهاية الدورة",
+        "status": {
+          "Active": "نشطة",
+          "PastDue": "متأخرة",
+          "Suspended": "موقوفة"
+        }
+      },
+      "actionItems": {
+        "title": "يحتاج إلى انتباه",
+        "description": "عناصر قد تحتاج إلى مراجعتك.",
+        "rejected": "فواتير مرفوضة",
+        "failed": "فواتير فاشلة",
+        "pendingSla": "قيد الانتظار وقريبة من الحد",
+        "devicesExpiring": "أجهزة قاربت على الانتهاء"
+      },
+      "activity": {
+        "title": "النشاط الأخير",
+        "description": "أحدث فواتيرك عبر جميع الأجهزة.",
+        "empty": "لا يوجد نشاط حديث."
+      }
+    },
+    "reports": {
+      "range": {
+        "7": "آخر ٧ أيام",
+        "30": "آخر ٣٠ يومًا",
+        "90": "آخر ٩٠ يومًا"
+      },
+      "updating": "جارٍ التحديث…",
+      "totalInRange": "في النطاق المحدد",
+      "cleared": "مقاصّة",
+      "reported": "مبلّغة",
+      "rejected": "مرفوضة",
+      "total": "الإجمالي",
+      "chartTitle": "الفواتير اليومية",
+      "breakdownTitle": "الأيام الأخيرة",
+      "emptyTitle": "لا توجد بيانات لهذا النطاق",
+      "emptyDescription": "لم تكن هناك فواتير في الفترة المحددة.",
+      "errorTitle": "تعذّر تحميل التقارير",
+      "errorDescription": "تعذّر جلب التحليلات حاليًا. يرجى المحاولة مرة أخرى بعد قليل."
+    },
+    "apiKeys": {
+      "create": "إنشاء مفتاح",
+      "creating": "جارٍ الإنشاء…",
+      "createTitle": "إنشاء مفتاح واجهة برمجية",
+      "createDescription": "أنشئ مفتاحًا جديدًا لأحد أجهزتك.",
+      "createSuccess": "تم إنشاء المفتاح",
+      "createError": "تعذّر إنشاء المفتاح",
+      "createdTitle": "تم إنشاء المفتاح",
+      "createdDescription": "انسخ هذا المفتاح الآن — لن يظهر مرة أخرى.",
+      "copyNow": "احتفظ به في مكان آمن. هذه هي المرة الوحيدة التي سيظهر فيها.",
+      "deviceIdLabel": "معرّف الجهاز",
+      "deviceIdPlaceholder": "01ARZ3NDEKTSV4RRFFQ69G5FBW",
+      "deviceIdDescription": "معرّف ULID للجهاز الذي سيعمل هذا المفتاح نيابةً عنه.",
+      "expiresLabel": "ينتهي خلال (أيام)",
+      "expiresPlaceholder": "أبدًا",
+      "expiresDescription": "اترك الحقل فارغًا لمفتاح لا تنتهي صلاحيته أبدًا.",
+      "cancel": "إلغاء",
+      "done": "تم",
+      "revoke": "إلغاء المفتاح",
+      "revokeTitle": "هل تريد إلغاء المفتاح؟",
+      "revokeDescription": "ستتوقف الطلبات التي تستخدم هذا المفتاح فورًا. لا يمكن التراجع عن هذا الإجراء.",
+      "revokeSuccess": "تم إلغاء المفتاح",
+      "revokeError": "تعذّر إلغاء المفتاح",
+      "colKey": "المفتاح",
+      "colDevice": "الجهاز",
+      "colEnvironment": "البيئة",
+      "colStatus": "الحالة",
+      "colLastUsed": "آخر استخدام",
+      "colExpires": "ينتهي في",
+      "emptyTitle": "لا توجد مفاتيح بعد",
+      "emptyDescription": "أنشئ مفتاحًا للبدء في التكامل مع الواجهة البرمجية.",
+      "errorTitle": "تعذّر تحميل المفاتيح",
+      "errorDescription": "تعذّر جلب مفاتيحك حاليًا. يرجى المحاولة مرة أخرى بعد قليل.",
+      "environment": {
+        "Simulation": "محاكاة",
+        "Production": "إنتاج"
+      },
+      "status": {
+        "Active": "نشط",
+        "Suspended": "موقوف"
+      }
+    },
+    "taxExemptions": {
+      "searchLabel": "بحث في الإعفاءات الضريبية",
+      "searchPlaceholder": "ابحث بالرمز أو السبب…",
+      "clearSearch": "مسح البحث",
+      "category": "الفئة {id}",
+      "emptyTitle": "لا توجد إعفاءات ضريبية",
+      "emptyDescription": "جرّب مصطلح بحث آخر.",
+      "errorTitle": "تعذّر تحميل الإعفاءات الضريبية",
+      "errorDescription": "تعذّر جلب رموز الإعفاء الضريبي حاليًا. يرجى المحاولة مرة أخرى بعد قليل."
     },
     "invoices": {
       "searchLabel": "ابحث في الفواتير",
@@ -232,6 +336,10 @@
       "allStatuses": "كل الحالات",
       "allTypes": "كل الأنواع",
       "clearFilters": "مسح التصفية",
+      "dateRange": "أي تاريخ",
+      "dateRangeFrom": "من {date}",
+      "dateRangeClear": "مسح التواريخ",
+      "dateRangeApply": "تطبيق",
       "colNumber": "رقم الفاتورة",
       "colType": "النوع",
       "colStatus": "الحالة",
@@ -243,6 +351,43 @@
       "errorDescription": "تعذّر جلب فواتيرك حاليًا. يرجى المحاولة مرة أخرى بعد قليل.",
       "previous": "السابق",
       "next": "التالي",
+      "retryAll": "إعادة محاولة الفاشلة ({count})",
+      "retryAllPending": "جارٍ إعادة الجدولة…",
+      "retryAllSuccess": "تمت إعادة جدولة {count} فاتورة",
+      "retryAllError": "تعذّرت إعادة جدولة الفواتير الفاشلة",
+      "detail": {
+        "description": "تفاصيل الفاتورة والتوقيع ورمز الاستجابة السريعة.",
+        "icv": "الرقم التسلسلي {icv}",
+        "attempts": "{attempts} محاولة إرسال",
+        "uuid": "المعرّف الفريد",
+        "hash": "بصمة الفاتورة",
+        "qrCodeAlt": "رمز الاستجابة السريعة للفاتورة",
+        "signedXmlShow": "عرض XML الفاتورة الموقّعة",
+        "signedXmlHide": "إخفاء XML الموقّع",
+        "signedXmlCopy": "نسخ XML",
+        "signedXmlDownload": "تنزيل XML",
+        "signedXmlInvalid": "تعذّر فك ترميز XML الفاتورة الموقّعة.",
+        "copyError": "تعذّر النسخ إلى الحافظة",
+        "lastErrorTitle": "آخر خطأ",
+        "timeline": {
+          "createdAtUtc": "تاريخ الإنشاء",
+          "reportedAtUtc": "تاريخ التبليغ",
+          "clearedAtUtc": "تاريخ المقصّلة",
+          "rejectedAtUtc": "تاريخ الرفض",
+          "failedAtUtc": "تاريخ الفشل",
+          "lastRetryAtUtc": "آخر إعادة محاولة"
+        },
+        "close": "إغلاق",
+        "downloadPdf": "تنزيل PDF",
+        "downloading": "جارٍ التنزيل…",
+        "pdfError": "تعذّر تنزيل ملف PDF",
+        "retry": "إعادة المحاولة",
+        "retrying": "جارٍ إعادة المحاولة…",
+        "retrySuccess": "تمت إعادة جدولة الفاتورة",
+        "retryError": "تعذّرت إعادة محاولة الفاتورة",
+        "errorTitle": "تعذّر تحميل الفاتورة",
+        "errorDescription": "تعذّر جلب تفاصيل هذه الفاتورة حاليًا. يرجى المحاولة مرة أخرى بعد قليل."
+      },
       "showing": "عرض {from}–{to} من {total}",
       "status": {
         "Pending": "قيد الانتظار",
@@ -287,7 +432,77 @@
       },
       "taxpayers": {
         "title": "المُكلفون",
-        "subtitle": "استعراض وإدارة بيانات المكلفين."
+        "subtitle": "استعراض وإدارة بيانات المكلفين.",
+        "view": {
+          "title": "الأجهزة",
+          "subtitle": "الأجهزة الإلكترونية المسجلة تحت هذا المُكلف."
+        }
+      }
+    },
+    "devices": {
+      "searchLabel": "بحث في الأجهزة",
+      "searchPlaceholder": "ابحث بالاسم أو الرقم التسلسلي…",
+      "clearFilters": "مسح التصفية",
+      "allEnvironments": "كل البيئات",
+      "allPhases": "كل المراحل",
+      "allInvoicingTypes": "كل أنواع الفوترة",
+      "colName": "اسم الجهاز",
+      "colSerial": "الرقم التسلسلي",
+      "colInvoicingType": "نوع الفوترة",
+      "colPhase": "المرحلة",
+      "colEnvironment": "البيئة",
+      "colCreated": "تاريخ التسجيل",
+      "certActive": "الشهادة سارية",
+      "certExpired": "انتهت الشهادة",
+      "certExpiresIn": "تنتهي الشهادة خلال {days} يوم",
+      "register": {
+        "trigger": "تسجيل جهاز",
+        "title": "تسجيل جهاز EGS",
+        "description": "إضافة جهاز EGS جديد إلى هذا المُكلف.",
+        "otp": "رمز التحقق",
+        "otpDescription": "رمز التحقق لمرة واحدة الوارد من طلب التسجيل.",
+        "commonName": "الاسم الشائع",
+        "organizationUnitName": "اسم وحدة المؤسسة",
+        "organizationUnitNameDescription": "استخدم الرقم التعريفي المكوّن من ١٠ أرقام عندما تكون خانة مجموعة ضريبية ١.",
+        "location": "الموقع",
+        "industry": "النشاط",
+        "invoicingType": "نوع الفوترة",
+        "environment": "البيئة",
+        "submit": "تسجيل",
+        "registering": "جارٍ التسجيل…",
+        "cancel": "إلغاء",
+        "success": "تم تسجيل الجهاز",
+        "error": "تعذّر تسجيل الجهاز",
+        "errorTitle": "فشل التسجيل"
+      },
+      "renew": {
+        "trigger": "تجديد الشهادة",
+        "title": "تجديد شهادة CSID",
+        "description": "تجديد شهادة الإنتاج للجهاز {name}.",
+        "otp": "رمز التحقق",
+        "otpDescription": "اتركه فارغًا للتجديد باستخدام الرمز المحفوظ.",
+        "submit": "تجديد",
+        "renewing": "جارٍ التجديد…",
+        "cancel": "إلغاء",
+        "success": "تم تجديد الشهادة",
+        "error": "تعذّر تجديد الشهادة"
+      },
+      "emptyTitle": "لا توجد أجهزة",
+      "emptyDescription": "لا يوجد لدى هذا المُكلف أجهزة مسجلة حتى الآن.",
+      "errorTitle": "تعذّر تحميل الأجهزة",
+      "errorDescription": "تعذّر جلب أجهزة هذا المُكلف حاليًا. يرجى المحاولة مرة أخرى بعد قليل.",
+      "environment": {
+        "Simulation": "محاكاة",
+        "Production": "إنتاج"
+      },
+      "phase": {
+        "Compliance": "الامتثال",
+        "Production": "الإنتاج"
+      },
+      "invoicingType": {
+        "Standard": "قياسية",
+        "Simplified": "مبسطة",
+        "Both": "كلاهما"
       }
     },
     "taxpayers": {
@@ -301,6 +516,28 @@
       "colCity": "المدينة",
       "colDevices": "الأجهزة",
       "vatGroup": "مجموعة ضريبية",
+      "create": {
+        "trigger": "مُكلف جديد",
+        "title": "إضافة مُكلف",
+        "description": "تسجيل ملف مُكلف جديد لدى هيئة الزكاة والضريبة.",
+        "legalName": "الاسم القانوني",
+        "vat": "الرقم الضريبي",
+        "vatDescription": "١٥ رقمًا، يبدأ وينتهي بالرقم ٣.",
+        "crn": "رقم السجل التجاري",
+        "address": "العنوان",
+        "streetName": "اسم الشارع",
+        "buildingNumber": "رقم المبنى",
+        "citySubdivisionName": "الحي",
+        "cityName": "المدينة",
+        "postalZone": "الرمز البريدي",
+        "country": "رمز الدولة",
+        "submit": "إضافة",
+        "creating": "جارٍ الإضافة…",
+        "cancel": "إلغاء",
+        "success": "تمت إضافة المُكلف",
+        "error": "تعذّرت إضافة المُكلف",
+        "errorTitle": "فشلت الإضافة"
+      },
       "emptyTitle": "لا يوجد مكلفون",
       "emptyDescription": "جرّب مصطلح بحث آخر.",
       "errorTitle": "تعذّر تحميل المكلفين",
@@ -311,7 +548,9 @@
       "description": "هذا القسم قيد الإنشاء وسيتم تعبئته قريبًا."
     },
     "user": {
-      "logout": "تسجيل الخروج"
+      "logout": "تسجيل الخروج",
+      "loggingOut": "جارٍ تسجيل الخروج…",
+      "logoutError": "تعذّر تسجيل خروجك. يرجى المحاولة مرة أخرى."
     }
   },
   "footer": {

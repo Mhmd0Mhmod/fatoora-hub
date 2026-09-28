@@ -18,8 +18,10 @@ import {
 import { DashboardSection } from "@/features/dashboard/components/dashboard-section";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 
-import { useTaxpayers } from "../hooks/use-taxpayers";
-import { TaxpayerResponse } from "../types";
+import { useTaxpayers } from "../../dashboard/hooks/use-taxpayers";
+import { TaxpayerResponse } from "../../dashboard/types";
+import { Link } from "@/i18n/navigation";
+import { CreateTaxpayerDialog } from "./create-taxpayer-dialog";
 
 export default function TaxpayersView() {
   const t = useTranslations("dashboard.taxpayers");
@@ -33,7 +35,11 @@ export default function TaxpayersView() {
       key: "name",
       header: t("colName"),
       cell: (taxpayer) => (
-        <span className="font-medium">{taxpayer.legalName}</span>
+        <Button variant="link" size="sm" className="p-0" asChild>
+          <Link href={`/dashboard/taxpayers/${taxpayer.id}/devices`}>
+            {taxpayer.legalName}
+          </Link>
+        </Button>
       ),
     },
     {
@@ -104,9 +110,13 @@ export default function TaxpayersView() {
             {t("clearFilters")}
           </Button>
         ) : null}
+
+        <div className="sm:ms-auto">
+          <CreateTaxpayerDialog />
+        </div>
       </div>
 
-      <DashboardSection contentClassName="p-0">
+      <DashboardSection contentClassName="px-4">
         <DataTable
           columns={columns}
           items={query.data}

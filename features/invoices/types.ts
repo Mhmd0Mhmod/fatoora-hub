@@ -1,5 +1,9 @@
 export type InvoiceStatus =
-  "Pending" | "Reported" | "Rejected" | "Cleared" | "Failed";
+  | "Pending"
+  | "Reported"
+  | "Rejected"
+  | "Cleared"
+  | "Failed";
 export type InvoiceType =
   | "Standard"
   | "Simplified"
@@ -14,7 +18,7 @@ export interface Invoiceitems {
   invoiceHash: string;
   invoiceType: InvoiceStatus;
   status: InvoiceStatus;
-  createdAtUtc: "2024-12-02T14:30:00Z";
-  reportedAtUtc: "2024-12-02T14:30:05Z";
-  submissionAttempts: 1;
+  createdAtUtc: string;
+  reportedAtUtc: string;
+  submissionAttempts: number;
 }

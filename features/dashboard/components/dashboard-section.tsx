@@ -31,7 +31,9 @@ function DashboardSection({
       {hasHeader ? (
         <CardHeader>
           {title ? <CardTitle>{title}</CardTitle> : null}
-          {description ? <CardDescription>{description}</CardDescription> : null}
+          {description ? (
+            <CardDescription>{description}</CardDescription>
+          ) : null}
           {action ? <CardAction>{action}</CardAction> : null}
         </CardHeader>
       ) : null}

@@ -1,7 +1,10 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { ChevronsUpDown, LogOut, Settings } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "@/i18n/navigation";
@@ -16,13 +19,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logoutAction } from "@/features/auth/actions";
 
 export default function DashboardUserButton() {
   const t = useTranslations("dashboard");
+  const tUser = useTranslations("dashboard.user");
+  const locale = useLocale();
   const { user } = useAuth();
-  if (!user) return null;
+  const queryClient = useQueryClient();
+  const [isPending, startTransition] = useTransition();
 
+  if (!user) return null;
   const initials = user.email.slice(0, 2).toUpperCase();
+
+  function handleLogout() {
+    startTransition(async () => {
+      try {
+        await logoutAction(locale);
+      } catch {
+        // logoutAction redirects on success, so a throw means it failed.
+        queryClient.clear();
+        toast.error(tUser("logoutError"));
+      }
+    });
+  }
 
   return (
     <DropdownMenu>
@@ -56,9 +76,16 @@ export default function DashboardUserButton() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">
+        <DropdownMenuItem
+          variant="destructive"
+          disabled={isPending}
+          onSelect={(event) => {
+            event.preventDefault();
+            handleLogout();
+          }}
+        >
           <LogOut />
-          {t("user.logout")}
+          {isPending ? tUser("loggingOut") : t("user.logout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

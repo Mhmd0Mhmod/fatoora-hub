@@ -224,7 +224,111 @@
       "invoices": "Invoices",
       "clients": "Clients",
       "devices": "Devices",
-      "taxpayers": "Taxpayers"
+      "taxpayers": "Taxpayers",
+      "passRate": "Pass rate"
+    },
+    "overview": {
+      "today": "Today",
+      "currentCycle": "Current cycle",
+      "errorTitle": "Couldn't load the dashboard",
+      "errorDescription": "We couldn't fetch your dashboard summary right now. Please try again in a moment.",
+      "wallet": {
+        "title": "Wallet",
+        "description": "Your current plan and invoice quota.",
+        "monthlyAvailable": "Available",
+        "monthlyQuota": "Monthly quota",
+        "topUpAvailable": "Top-up",
+        "cycleEnds": "Cycle ends",
+        "status": {
+          "Active": "Active",
+          "PastDue": "Past due",
+          "Suspended": "Suspended"
+        }
+      },
+      "actionItems": {
+        "title": "Needs attention",
+        "description": "Items that may need your review.",
+        "rejected": "Rejected invoices",
+        "failed": "Failed invoices",
+        "pendingSla": "Pending, nearing SLA",
+        "devicesExpiring": "Devices expiring soon"
+      },
+      "activity": {
+        "title": "Recent activity",
+        "description": "Your latest invoices across all devices.",
+        "empty": "No recent activity."
+      }
+    },
+    "reports": {
+      "range": {
+        "7": "Last 7 days",
+        "30": "Last 30 days",
+        "90": "Last 90 days"
+      },
+      "updating": "Updating…",
+      "totalInRange": "In selected range",
+      "cleared": "Cleared",
+      "reported": "Reported",
+      "rejected": "Rejected",
+      "total": "Total",
+      "chartTitle": "Daily invoices",
+      "breakdownTitle": "Recent days",
+      "emptyTitle": "No data for this range",
+      "emptyDescription": "There were no invoices in the selected period.",
+      "errorTitle": "Couldn't load reports",
+      "errorDescription": "We couldn't fetch your analytics right now. Please try again in a moment."
+    },
+    "apiKeys": {
+      "create": "Create key",
+      "creating": "Creating…",
+      "createTitle": "Create API key",
+      "createDescription": "Generate a new key for one of your devices.",
+      "createSuccess": "API key created",
+      "createError": "Couldn't create the API key",
+      "createdTitle": "API key created",
+      "createdDescription": "Copy this key now — it won't be shown again.",
+      "copyNow": "Store it somewhere safe. This is the only time it will be displayed.",
+      "deviceIdLabel": "Device ID",
+      "deviceIdPlaceholder": "01ARZ3NDEKTSV4RRFFQ69G5FBW",
+      "deviceIdDescription": "The ULID of the device this key will act for.",
+      "expiresLabel": "Expires in (days)",
+      "expiresPlaceholder": "Never",
+      "expiresDescription": "Leave empty for a key that never expires.",
+      "cancel": "Cancel",
+      "done": "Done",
+      "revoke": "Revoke",
+      "revokeTitle": "Revoke API key?",
+      "revokeDescription": "Requests using this key will stop working immediately. This can't be undone.",
+      "revokeSuccess": "API key revoked",
+      "revokeError": "Couldn't revoke the API key",
+      "colKey": "Key",
+      "colDevice": "Device",
+      "colEnvironment": "Environment",
+      "colStatus": "Status",
+      "colLastUsed": "Last used",
+      "colExpires": "Expires",
+      "emptyTitle": "No API keys yet",
+      "emptyDescription": "Create a key to start integrating with the API.",
+      "errorTitle": "Couldn't load API keys",
+      "errorDescription": "We couldn't fetch your API keys right now. Please try again in a moment.",
+      "environment": {
+        "Simulation": "Simulation",
+        "Production": "Production"
+      },
+      "status": {
+        "Active": "Active",
+        "Suspended": "Suspended"
+      }
+    },
+    "taxExemptions": {
+      "searchLabel": "Search tax exemptions",
+      "searchPlaceholder": "Search by code or reason…",
+      "clearSearch": "Clear search",
+      "category": "Category {id}",
+      "emptyTitle": "No tax exemptions found",
+      "emptyDescription": "Try a different search term.",
+      "errorTitle": "Couldn't load tax exemptions",
+      "errorDescription": "We couldn't fetch the tax exemption codes right now. Please try again in a moment."
     },
     "invoices": {
       "searchLabel": "Search invoices",
@@ -232,6 +336,10 @@
       "allStatuses": "All statuses",
       "allTypes": "All types",
       "clearFilters": "Clear filters",
+      "dateRange": "Any date",
+      "dateRangeFrom": "From {date}",
+      "dateRangeClear": "Clear dates",
+      "dateRangeApply": "Apply",
       "colNumber": "Invoice number",
       "colType": "Type",
       "colStatus": "Status",
@@ -243,6 +351,44 @@
       "errorDescription": "We couldn't fetch your invoices right now. Please try again in a moment.",
       "previous": "Previous",
       "next": "Next",
+      "showing": "Showing {from}–{to} of {total}",
+      "retryAll": "Retry failed ({count})",
+      "retryAllPending": "Re-queueing…",
+      "retryAllSuccess": "Re-queued {count} invoice(s)",
+      "retryAllError": "Couldn't re-queue the failed invoices",
+      "detail": {
+        "description": "Structured invoice details, signature and QR code.",
+        "icv": "ICV {icv}",
+        "attempts": "{attempts} submission attempt(s)",
+        "uuid": "UUID",
+        "hash": "Invoice hash",
+        "qrCodeAlt": "Invoice QR code",
+        "signedXmlShow": "Signed invoice XML",
+        "signedXmlHide": "Hide signed XML",
+        "signedXmlCopy": "Copy XML",
+        "signedXmlDownload": "Download XML",
+        "signedXmlInvalid": "The signed invoice XML could not be decoded.",
+        "copyError": "Couldn't copy to the clipboard",
+        "lastErrorTitle": "Last error",
+        "timeline": {
+          "createdAtUtc": "Created",
+          "reportedAtUtc": "Reported",
+          "clearedAtUtc": "Cleared",
+          "rejectedAtUtc": "Rejected",
+          "failedAtUtc": "Failed",
+          "lastRetryAtUtc": "Last retry"
+        },
+        "close": "Close",
+        "downloadPdf": "Download PDF",
+        "downloading": "Downloading…",
+        "pdfError": "Couldn't download the PDF",
+        "retry": "Retry",
+        "retrying": "Retrying…",
+        "retrySuccess": "Invoice re-queued",
+        "retryError": "Couldn't retry the invoice",
+        "errorTitle": "Couldn't load the invoice",
+        "errorDescription": "We couldn't fetch this invoice's details right now. Please try again in a moment."
+      },
       "showing": "Showing {from}–{to} of {total}",
       "status": {
         "Pending": "Pending",
@@ -287,7 +433,77 @@
       },
       "taxpayers": {
         "title": "Taxpayers",
-        "subtitle": "View and manage taxpayer information."
+        "subtitle": "View and manage taxpayer information.",
+        "view": {
+          "title": "Devices",
+          "subtitle": "EGS devices registered under this taxpayer."
+        }
+      }
+    },
+    "devices": {
+      "searchLabel": "Search devices",
+      "searchPlaceholder": "Search by name or serial number…",
+      "clearFilters": "Clear filters",
+      "allEnvironments": "All environments",
+      "allPhases": "All phases",
+      "allInvoicingTypes": "All invoicing types",
+      "colName": "Device name",
+      "colSerial": "EGS serial number",
+      "colInvoicingType": "Invoicing type",
+      "colPhase": "Phase",
+      "colEnvironment": "Environment",
+      "colCreated": "Registered at",
+      "certActive": "Cert active",
+      "certExpired": "Cert expired",
+      "certExpiresIn": "Cert expires in {days}d",
+      "register": {
+        "trigger": "Register device",
+        "title": "Register an EGS device",
+        "description": "Onboard a new EGS unit against this taxpayer.",
+        "otp": "OTP",
+        "otpDescription": "The one-time password from your onboarding request.",
+        "commonName": "Common name",
+        "organizationUnitName": "Organization unit name",
+        "organizationUnitNameDescription": "Use the 10-digit TIN when the VAT group digit is 1.",
+        "location": "Location",
+        "industry": "Industry",
+        "invoicingType": "Invoicing type",
+        "environment": "Environment",
+        "submit": "Register",
+        "registering": "Registering…",
+        "cancel": "Cancel",
+        "success": "Device registered",
+        "error": "Couldn't register the device",
+        "errorTitle": "Registration failed"
+      },
+      "renew": {
+        "trigger": "Renew certificate",
+        "title": "Renew CSID certificate",
+        "description": "Renew the production certificate for {name}.",
+        "otp": "OTP",
+        "otpDescription": "Leave empty to renew with the stored OTP.",
+        "submit": "Renew",
+        "renewing": "Renewing…",
+        "cancel": "Cancel",
+        "success": "Certificate renewed",
+        "error": "Couldn't renew the certificate"
+      },
+      "emptyTitle": "No devices found",
+      "emptyDescription": "This taxpayer has no registered devices yet.",
+      "errorTitle": "Couldn't load devices",
+      "errorDescription": "We couldn't fetch this taxpayer's devices right now. Please try again in a moment.",
+      "environment": {
+        "Simulation": "Simulation",
+        "Production": "Production"
+      },
+      "phase": {
+        "Compliance": "Compliance",
+        "Production": "Production"
+      },
+      "invoicingType": {
+        "Standard": "Standard",
+        "Simplified": "Simplified",
+        "Both": "Both"
       }
     },
     "taxpayers": {
@@ -301,6 +517,28 @@
       "colCity": "City",
       "colDevices": "Devices",
       "vatGroup": "VAT group",
+      "create": {
+        "trigger": "New taxpayer",
+        "title": "Create taxpayer",
+        "description": "Register a new taxpayer profile with ZATCA.",
+        "legalName": "Legal name",
+        "vat": "VAT number",
+        "vatDescription": "15 digits, starting and ending with 3.",
+        "crn": "CRN",
+        "address": "Address",
+        "streetName": "Street name",
+        "buildingNumber": "Building number",
+        "citySubdivisionName": "District",
+        "cityName": "City",
+        "postalZone": "Postal zone",
+        "country": "Country code",
+        "submit": "Create",
+        "creating": "Creating…",
+        "cancel": "Cancel",
+        "success": "Taxpayer created",
+        "error": "Couldn't create the taxpayer",
+        "errorTitle": "Creation failed"
+      },
       "emptyTitle": "No taxpayers found",
       "emptyDescription": "Try a different search term.",
       "errorTitle": "Couldn't load taxpayers",
@@ -311,7 +549,9 @@
       "description": "This section is under construction and will be filled in soon."
     },
     "user": {
-      "logout": "Log out"
+      "logout": "Log out",
+      "loggingOut": "Logging out…",
+      "logoutError": "Couldn't log you out. Please try again."
     }
   },
   "footer": {
