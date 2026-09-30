@@ -1,19 +1,16 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import Logo from "@/app/icon.png";
 import {
   BarChart3,
   Building2,
-  FileCheck2,
   FileText,
   KeyRound,
   LayoutDashboard,
   LifeBuoy,
   Settings,
-  Sparkles,
 } from "lucide-react";
-
-import { Link, usePathname } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Sidebar,
   SidebarContent,
@@ -26,6 +23,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Link, usePathname } from "@/i18n/navigation";
+import Image from "next/image";
 
 const mainItems = [
   { key: "overview", href: "/dashboard", icon: LayoutDashboard },
@@ -59,10 +58,14 @@ export default function DashboardSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-teal-400 to-cyan-600 text-white shadow-sm shadow-teal-500/20">
-                  <Sparkles className="size-4" />
-                </span>
+              <Link href="/" className="flex items-center gap-2.5 relative">
+                <Image
+                  src={Logo}
+                  alt={header("brand")}
+                  width={32}
+                  height={32}
+                  className="h-8 w-8 rounded-full"
+                />
                 <span className="flex flex-col">
                   <span className="text-sm font-semibold">
                     {header("brand")}

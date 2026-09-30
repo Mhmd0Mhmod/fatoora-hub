@@ -1,7 +1,8 @@
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-
+import Logo from "@/app/icon.png";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 type FooterLink = {
   label: string;
@@ -19,9 +20,13 @@ export default async function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <a href="#hero" className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-cyan-600 shadow-md shadow-teal-500/20">
-                <Sparkles className="h-4.5 w-4.5" />
-              </span>
+              <Image
+                src={Logo}
+                alt={t("brand")}
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-full"
+              />
               <span className="flex items-baseline gap-2">
                 <span className="text-lg font-extrabold tracking-tight">
                   {t("brand")}

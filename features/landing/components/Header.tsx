@@ -1,13 +1,22 @@
 "use client";
 
-import { Globe, Menu, Sparkles, X } from "lucide-react";
+import { Globe, Menu, X } from "lucide-react";
 import { useState } from "react";
+import Logo from "@/app/icon.png";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
-const navItems = ["home", "features", "developers", "pricing", "faq"] as const;
+const navItems = [
+  "reality",
+  "features",
+  "compare",
+  "developers",
+  "pricing",
+  "faq",
+] as const;
 
 export default function Header() {
   const t = useTranslations("header");
@@ -19,10 +28,14 @@ export default function Header() {
     <header className="sticky  top-0 z-10 border-b border-border/60 bg-white  backdrop-blur-xl supports-backdrop-filter:bg-white/50 dark:bg-neutral-950/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Brand */}
-        <a href="#hero" className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-teal-400 to-cyan-600 text-white shadow-md shadow-teal-500/20">
-            <Sparkles className="h-4.5 w-4.5" />
-          </span>
+        <a href="#hero" className="flex items-center gap-2.5 relative">
+          <Image
+            src={Logo}
+            alt={t("brand")}
+            width={32}
+            height={32}
+            className="h-8 w-8 rounded-full"
+          />
           <span className="flex items-baseline gap-2">
             <span className="text-lg font-extrabold tracking-tight">
               {t("brand")}
