@@ -1,6 +1,7 @@
-import { getTranslations } from "next-intl/server";
 import { ArrowLeft, Clock3, ShieldCheck, Sparkles } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
+import LogoImage from "@/components/shared/logo-image";
 import { Link } from "@/i18n/navigation";
 
 const pointsIcons = [Clock3, ShieldCheck, Sparkles];
@@ -22,9 +23,7 @@ export default async function AuthLayout({
         <div className="absolute -bottom-48 left-[-10%] -z-10 h-120 w-120 rounded-full bg-cyan-500/15 blur-[140px]" />
 
         <div className="relative flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-teal-400 to-cyan-600 text-white shadow-md shadow-teal-500/20">
-            <Sparkles className="h-4.5 w-4.5" />
-          </span>
+          <LogoImage />
           <span className="flex items-baseline gap-2">
             <span className="text-lg font-extrabold tracking-tight">
               {header("brand")}
@@ -74,9 +73,7 @@ export default async function AuthLayout({
 
         <div className="mb-8 flex w-full max-w-md items-center justify-between lg:hidden">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-teal-400 to-cyan-600 text-white shadow-md shadow-teal-500/20">
-              <Sparkles className="h-4.5 w-4.5" />
-            </span>
+            <LogoImage />
             <span className="text-lg font-extrabold tracking-tight">
               {header("brand")}
             </span>

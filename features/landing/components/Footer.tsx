@@ -1,8 +1,7 @@
+import LogoImage from "@/components/shared/logo-image";
+import { Separator } from "@/components/ui/separator";
 import { ArrowUpRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import Logo from "@/app/icon.png";
-import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
 
 type FooterLink = {
   label: string;
@@ -20,13 +19,7 @@ export default async function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <a href="#hero" className="flex items-center gap-2.5">
-              <Image
-                src={Logo}
-                alt={t("brand")}
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-full"
-              />
+              <LogoImage />
               <span className="flex items-baseline gap-2">
                 <span className="text-lg font-extrabold tracking-tight">
                   {t("brand")}

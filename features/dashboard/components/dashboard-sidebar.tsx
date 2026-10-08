@@ -1,16 +1,6 @@
 "use client";
 
-import Logo from "@/app/icon.png";
-import {
-  BarChart3,
-  Building2,
-  FileText,
-  KeyRound,
-  LayoutDashboard,
-  LifeBuoy,
-  Settings,
-} from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import LogoImage from "@/components/shared/logo-image";
 import {
   Sidebar,
   SidebarContent,
@@ -24,7 +14,16 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
-import Image from "next/image";
+import {
+  BarChart3,
+  Building2,
+  FileText,
+  KeyRound,
+  LayoutDashboard,
+  LifeBuoy,
+  Settings,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 const mainItems = [
   { key: "overview", href: "/dashboard", icon: LayoutDashboard },
@@ -59,13 +58,7 @@ export default function DashboardSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/" className="flex items-center gap-2.5 relative">
-                <Image
-                  src={Logo}
-                  alt={header("brand")}
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 rounded-full"
-                />
+                <LogoImage />
                 <span className="flex flex-col">
                   <span className="text-sm font-semibold">
                     {header("brand")}

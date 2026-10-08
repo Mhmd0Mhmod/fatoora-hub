@@ -1,13 +1,12 @@
 "use client";
 
-import { Globe, Menu, X } from "lucide-react";
-import { useState } from "react";
-import Logo from "@/app/icon.png";
-import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Globe, Menu, X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
+import LogoImage from "@/components/shared/logo-image";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 const navItems = [
   "reality",
@@ -29,13 +28,7 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Brand */}
         <a href="#hero" className="flex items-center gap-2.5 relative">
-          <Image
-            src={Logo}
-            alt={t("brand")}
-            width={32}
-            height={32}
-            className="h-8 w-8 rounded-full"
-          />
+          <LogoImage />
           <span className="flex items-baseline gap-2">
             <span className="text-lg font-extrabold tracking-tight">
               {t("brand")}
