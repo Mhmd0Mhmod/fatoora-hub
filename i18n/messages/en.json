@@ -607,7 +607,7 @@
   },
   "footer": {
     "brand": "Fatoora Hub",
-    "brandSub": "محور فاتورة",
+    "brandSub": "فاتورة هاب",
     "brandDesc": "A headless compliance gateway for Saudi e-invoicing. Keep your software and your database; we operate the ZATCA Phase 2 layer behind a REST API.",
     "linksTitle": "Quick links",
     "links": [
