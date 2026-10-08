@@ -1,8 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -18,91 +20,82 @@ import {
 } from "@/components/ui/dialog";
 import {
   Field,
+  FieldContent,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useCreateTaxpayer } from "@/features/dashboard/hooks/use-taxpayers";
-
-const EMPTY = {
-  vat: "",
-  crn: "",
-  legalName: "",
-  streetName: "",
-  buildingNumber: "",
-  citySubdivisionName: "",
-  cityName: "",
-  postalZone: "",
-  country: "",
-};
+import {
+  CreateTaxpayerInput,
+  getCreateTaxpayerSchema,
+} from "@/features/taxpayers/validators";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 export function CreateTaxpayerDialog() {
   const t = useTranslations("dashboard.taxpayers.create");
   const create = useCreateTaxpayer();
 
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState(EMPTY);
 
-  const isValid = Boolean(
-    form.vat.trim() &&
-      form.crn.trim() &&
-      form.legalName.trim() &&
-      form.streetName.trim() &&
-      form.buildingNumber.trim() &&
-      form.citySubdivisionName.trim() &&
-      form.cityName.trim() &&
-      form.postalZone.trim(),
-  );
-
-  function set<K extends keyof typeof EMPTY>(key: K, value: string) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
+  const { control, handleSubmit, reset } = useForm<CreateTaxpayerInput>({
+    resolver: zodResolver(getCreateTaxpayerSchema(t)),
+    defaultValues: {
+      legalName: "",
+      vat: "",
+      crn: "",
+      streetName: "",
+      buildingNumber: "",
+      citySubdivisionName: "",
+      cityName: "",
+      postalZone: "",
+      country: "",
+    },
+  });
 
   function handleOpenChange(next: boolean) {
     setOpen(next);
     if (!next) {
-      setForm(EMPTY);
+      reset();
       create.reset();
     }
   }
 
-  function handleSubmit() {
+  const onSubmit = handleSubmit((values) => {
+    // Flat form state nests into the `address` shape the command expects.
     create.mutate(
       {
-        vat: form.vat.trim(),
-        crn: form.crn.trim(),
-        legalName: form.legalName.trim(),
+        vat: values.vat,
+        crn: values.crn,
+        legalName: values.legalName,
         address: {
-          streetName: form.streetName.trim(),
-          buildingNumber: form.buildingNumber.trim(),
-          citySubdivisionName: form.citySubdivisionName.trim(),
-          cityName: form.cityName.trim(),
-          postalZone: form.postalZone.trim(),
-          country: form.country.trim() || "SA",
+          streetName: values.streetName,
+          buildingNumber: values.buildingNumber,
+          citySubdivisionName: values.citySubdivisionName,
+          cityName: values.cityName,
+          postalZone: values.postalZone,
+          country: values.country || "SA",
         },
       },
       {
         onSuccess: () => {
           toast.success(t("success"));
           setOpen(false);
-          setForm(EMPTY);
+          reset();
         },
         onError: (error) => {
-          const detail =
-            (error as { response?: { data?: { detail?: string } } })?.response
-              ?.data?.detail ?? t("error");
-
-          toast.error(detail);
+          toast.error(getApiErrorMessage(error, t("error")));
         },
       },
     );
-  }
+  });
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button>
+        <Button type="button">
           <Plus />
           {t("trigger")}
         </Button>
@@ -121,126 +114,228 @@ export function CreateTaxpayerDialog() {
           </Alert>
         ) : null}
 
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="tp-legal-name">{t("legalName")}</FieldLabel>
-            <Input
-              id="tp-legal-name"
-              value={form.legalName}
-              onChange={(e) => set("legalName", e.target.value)}
-              autoComplete="organization"
+        {/* `contents` keeps the field group + footer as the dialog's grid children. */}
+        <form onSubmit={onSubmit} noValidate className="contents">
+          <FieldGroup>
+            <Controller
+              name="legalName"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel htmlFor="tp-legal-name">
+                    {t("legalName")}
+                  </FieldLabel>
+                  <FieldContent>
+                    <Input
+                      id="tp-legal-name"
+                      autoComplete="organization"
+                      aria-invalid={fieldState.invalid}
+                      {...field}
+                    />
+                    <FieldError>{fieldState.error?.message}</FieldError>
+                  </FieldContent>
+                </Field>
+              )}
             />
-          </Field>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field>
-              <FieldLabel htmlFor="tp-vat">{t("vat")}</FieldLabel>
-              <Input
-                id="tp-vat"
-                value={form.vat}
-                onChange={(e) => set("vat", e.target.value)}
-                placeholder="300000000000003"
-                inputMode="numeric"
-                dir="ltr"
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Controller
+                name="vat"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel htmlFor="tp-vat">{t("vat")}</FieldLabel>
+                    <FieldContent>
+                      <Input
+                        id="tp-vat"
+                        placeholder="300000000000003"
+                        inputMode="numeric"
+                        dir="ltr"
+                        aria-invalid={fieldState.invalid}
+                        {...field}
+                      />
+                      <FieldError>{fieldState.error?.message}</FieldError>
+                    </FieldContent>
+                    <FieldDescription>{t("vatDescription")}</FieldDescription>
+                  </Field>
+                )}
               />
-              <FieldDescription>{t("vatDescription")}</FieldDescription>
-            </Field>
 
-            <Field>
-              <FieldLabel htmlFor="tp-crn">{t("crn")}</FieldLabel>
-              <Input
-                id="tp-crn"
-                value={form.crn}
-                onChange={(e) => set("crn", e.target.value)}
-                placeholder="1010101010"
-                inputMode="numeric"
-                dir="ltr"
+              <Controller
+                name="crn"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel htmlFor="tp-crn">{t("crn")}</FieldLabel>
+                    <FieldContent>
+                      <Input
+                        id="tp-crn"
+                        placeholder="1010101010"
+                        inputMode="numeric"
+                        dir="ltr"
+                        aria-invalid={fieldState.invalid}
+                        {...field}
+                      />
+                      <FieldError>{fieldState.error?.message}</FieldError>
+                    </FieldContent>
+                  </Field>
+                )}
               />
-            </Field>
-          </div>
-
-          <Field>
-            <FieldLabel>{t("address")}</FieldLabel>
-            <div className="grid gap-3">
-              <div className="grid gap-3 sm:grid-cols-[2fr_1fr]">
-                <Field>
-                  <FieldLabel htmlFor="tp-street">{t("streetName")}</FieldLabel>
-                  <Input
-                    id="tp-street"
-                    value={form.streetName}
-                    onChange={(e) => set("streetName", e.target.value)}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="tp-building">
-                    {t("buildingNumber")}
-                  </FieldLabel>
-                  <Input
-                    id="tp-building"
-                    value={form.buildingNumber}
-                    onChange={(e) => set("buildingNumber", e.target.value)}
-                  />
-                </Field>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                <Field>
-                  <FieldLabel htmlFor="tp-subdivision">
-                    {t("citySubdivisionName")}
-                  </FieldLabel>
-                  <Input
-                    id="tp-subdivision"
-                    value={form.citySubdivisionName}
-                    onChange={(e) => set("citySubdivisionName", e.target.value)}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="tp-city">{t("cityName")}</FieldLabel>
-                  <Input
-                    id="tp-city"
-                    value={form.cityName}
-                    onChange={(e) => set("cityName", e.target.value)}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="tp-postal">{t("postalZone")}</FieldLabel>
-                  <Input
-                    id="tp-postal"
-                    value={form.postalZone}
-                    onChange={(e) => set("postalZone", e.target.value)}
-                  />
-                </Field>
-              </div>
-
-              <Field>
-                <FieldLabel htmlFor="tp-country">{t("country")}</FieldLabel>
-                <Input
-                  id="tp-country"
-                  value={form.country}
-                  onChange={(e) => set("country", e.target.value)}
-                  placeholder="SA"
-                  dir="ltr"
-                />
-              </Field>
             </div>
-          </Field>
-        </FieldGroup>
 
-        <DialogFooter>
-          <Button
-            variant="ghost"
-            onClick={() => handleOpenChange(false)}
-            disabled={create.isPending}
-          >
-            {t("cancel")}
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={!isValid || create.isPending}
-          >
-            {create.isPending ? t("creating") : t("submit")}
-          </Button>
-        </DialogFooter>
+            <Field>
+              <FieldLabel>{t("address")}</FieldLabel>
+              <div className="grid gap-3">
+                <div className="grid gap-3 sm:grid-cols-[2fr_1fr]">
+                  <Controller
+                    name="streetName"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel htmlFor="tp-street">
+                          {t("streetName")}
+                        </FieldLabel>
+                        <FieldContent>
+                          <Input
+                            id="tp-street"
+                            aria-invalid={fieldState.invalid}
+                            {...field}
+                          />
+                          <FieldError>
+                            {fieldState.error?.message}
+                          </FieldError>
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    name="buildingNumber"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel htmlFor="tp-building">
+                          {t("buildingNumber")}
+                        </FieldLabel>
+                        <FieldContent>
+                          <Input
+                            id="tp-building"
+                            aria-invalid={fieldState.invalid}
+                            {...field}
+                          />
+                          <FieldError>
+                            {fieldState.error?.message}
+                          </FieldError>
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <Controller
+                    name="citySubdivisionName"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel htmlFor="tp-subdivision">
+                          {t("citySubdivisionName")}
+                        </FieldLabel>
+                        <FieldContent>
+                          <Input
+                            id="tp-subdivision"
+                            aria-invalid={fieldState.invalid}
+                            {...field}
+                          />
+                          <FieldError>
+                            {fieldState.error?.message}
+                          </FieldError>
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    name="cityName"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel htmlFor="tp-city">
+                          {t("cityName")}
+                        </FieldLabel>
+                        <FieldContent>
+                          <Input
+                            id="tp-city"
+                            aria-invalid={fieldState.invalid}
+                            {...field}
+                          />
+                          <FieldError>
+                            {fieldState.error?.message}
+                          </FieldError>
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    name="postalZone"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel htmlFor="tp-postal">
+                          {t("postalZone")}
+                        </FieldLabel>
+                        <FieldContent>
+                          <Input
+                            id="tp-postal"
+                            aria-invalid={fieldState.invalid}
+                            {...field}
+                          />
+                          <FieldError>
+                            {fieldState.error?.message}
+                          </FieldError>
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                </div>
+
+                <Controller
+                  name="country"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel htmlFor="tp-country">
+                        {t("country")}
+                      </FieldLabel>
+                      <FieldContent>
+                        <Input
+                          id="tp-country"
+                          placeholder="SA"
+                          dir="ltr"
+                          aria-invalid={fieldState.invalid}
+                          {...field}
+                        />
+                        <FieldError>{fieldState.error?.message}</FieldError>
+                      </FieldContent>
+                    </Field>
+                  )}
+                />
+              </div>
+            </Field>
+          </FieldGroup>
+
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => handleOpenChange(false)}
+              disabled={create.isPending}
+            >
+              {t("cancel")}
+            </Button>
+            <Button type="submit" disabled={create.isPending}>
+              {create.isPending ? t("creating") : t("submit")}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

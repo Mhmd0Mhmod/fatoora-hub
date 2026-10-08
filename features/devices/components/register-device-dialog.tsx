@@ -1,8 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -18,7 +20,9 @@ import {
 } from "@/components/ui/dialog";
 import {
   Field,
+  FieldContent,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
@@ -32,88 +36,58 @@ import {
 } from "@/components/ui/select";
 import { useRegisterDevice } from "@/features/dashboard/hooks/use-devices";
 import {
-  DeviceInvoicingType,
-  ZatcaEnvironment,
-} from "@/features/dashboard/types";
-
-const EMPTY = {
-  otp: "",
-  commonName: "",
-  location: "",
-  industry: "",
-  organizationUnitName: "",
-};
-
-const invoicingTypes: DeviceInvoicingType[] = [
-  "Standard",
-  "Simplified",
-  "Both",
-];
-const environments: ZatcaEnvironment[] = ["Simulation", "Production"];
+  ENVIRONMENTS,
+  getRegisterDeviceSchema,
+  INVOICING_TYPES,
+  type RegisterDeviceInput,
+} from "@/features/devices/validators";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 export function RegisterDeviceDialog({ taxpayerId }: { taxpayerId: string }) {
   const t = useTranslations("dashboard.devices.register");
   const register = useRegisterDevice(taxpayerId);
 
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState(EMPTY);
-  const [invoicingType, setInvoicingType] =
-    useState<DeviceInvoicingType>("Standard");
-  const [environment, setEnvironment] =
-    useState<ZatcaEnvironment>("Simulation");
 
-  const isValid = Boolean(
-    form.otp.trim() &&
-    form.commonName.trim() &&
-    form.location.trim() &&
-    form.industry.trim() &&
-    form.organizationUnitName.trim(),
-  );
-
-  function set<K extends keyof typeof EMPTY>(key: K, value: string) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
+  const { control, handleSubmit, reset } = useForm<RegisterDeviceInput>({
+    resolver: zodResolver(getRegisterDeviceSchema(t)),
+    defaultValues: {
+      otp: "",
+      commonName: "",
+      location: "",
+      industry: "",
+      organizationUnitName: "",
+      invoiceType: "Standard",
+      environment: "Simulation",
+    },
+  });
 
   function handleOpenChange(next: boolean) {
     setOpen(next);
     if (!next) {
-      setForm(EMPTY);
+      reset();
       register.reset();
     }
   }
 
-  function handleSubmit() {
-    register.mutate(
-      {
-        otp: form.otp.trim(),
-        commonName: form.commonName.trim(),
-        location: form.location.trim(),
-        industry: form.industry.trim(),
-        organizationUnitName: form.organizationUnitName.trim(),
-        invoiceType: invoicingType,
-        environment,
+  const onSubmit = handleSubmit((values) => {
+    // Field names match `RegisterDeviceCommand` one for one, so this posts as-is.
+    register.mutate(values, {
+      onSuccess: () => {
+        toast.success(t("success"));
+        setOpen(false);
+        reset();
       },
-      {
-        onSuccess: () => {
-          toast.success(t("success"));
-          setOpen(false);
-          setForm(EMPTY);
-        },
-        onError: (error) => {
-          const detail =
-            (error as { response?: { data?: { detail?: string } } })?.response
-              ?.data?.detail ?? t("error");
-
-          toast.error(detail);
-        },
+      onError: (error) => {
+        toast.error(getApiErrorMessage(error, t("error")));
       },
-    );
-  }
+    });
+  });
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="outline" className="sm:ms-auto">
+        <Button type="button" size="sm" variant="outline" className="sm:ms-auto">
           <Plus />
           {t("trigger")}
         </Button>
@@ -132,132 +106,198 @@ export function RegisterDeviceDialog({ taxpayerId }: { taxpayerId: string }) {
           </Alert>
         ) : null}
 
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="device-otp">{t("otp")}</FieldLabel>
-            <Input
-              id="device-otp"
-              value={form.otp}
-              onChange={(e) => set("otp", e.target.value)}
-              dir="ltr"
-              autoComplete="one-time-code"
+        {/* `contents` keeps the field group + footer as the dialog's grid children. */}
+        <form onSubmit={onSubmit} noValidate className="contents">
+          <FieldGroup>
+            <Controller
+              name="otp"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel htmlFor="device-otp">{t("otp")}</FieldLabel>
+                  <FieldContent>
+                    <Input
+                      id="device-otp"
+                      dir="ltr"
+                      autoComplete="one-time-code"
+                      aria-invalid={fieldState.invalid}
+                      {...field}
+                    />
+                    <FieldError>{fieldState.error?.message}</FieldError>
+                  </FieldContent>
+                  <FieldDescription>{t("otpDescription")}</FieldDescription>
+                </Field>
+              )}
             />
-            <FieldDescription>{t("otpDescription")}</FieldDescription>
-          </Field>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field>
-              <FieldLabel htmlFor="device-common-name">
-                {t("commonName")}
-              </FieldLabel>
-              <Input
-                id="device-common-name"
-                value={form.commonName}
-                onChange={(e) => set("commonName", e.target.value)}
-                placeholder="T1-EGS-01"
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Controller
+                name="commonName"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel htmlFor="device-common-name">
+                      {t("commonName")}
+                    </FieldLabel>
+                    <FieldContent>
+                      <Input
+                        id="device-common-name"
+                        placeholder="T1-EGS-01"
+                        aria-invalid={fieldState.invalid}
+                        {...field}
+                      />
+                      <FieldError>{fieldState.error?.message}</FieldError>
+                    </FieldContent>
+                  </Field>
+                )}
               />
-            </Field>
 
-            <Field>
-              <FieldLabel htmlFor="device-organization">
-                {t("organizationUnitName")}
-              </FieldLabel>
-              <Input
-                id="device-organization"
-                value={form.organizationUnitName}
-                onChange={(e) => set("organizationUnitName", e.target.value)}
-                placeholder="300000000000003"
-                inputMode="numeric"
-                dir="ltr"
+              <Controller
+                name="organizationUnitName"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel htmlFor="device-organization">
+                      {t("organizationUnitName")}
+                    </FieldLabel>
+                    <FieldContent>
+                      <Input
+                        id="device-organization"
+                        placeholder="300000000000003"
+                        inputMode="numeric"
+                        dir="ltr"
+                        aria-invalid={fieldState.invalid}
+                        {...field}
+                      />
+                      <FieldError>{fieldState.error?.message}</FieldError>
+                    </FieldContent>
+                    <FieldDescription>
+                      {t("organizationUnitNameDescription")}
+                    </FieldDescription>
+                  </Field>
+                )}
               />
-              <FieldDescription>
-                {t("organizationUnitNameDescription")}
-              </FieldDescription>
-            </Field>
-          </div>
+            </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field>
-              <FieldLabel htmlFor="device-location">{t("location")}</FieldLabel>
-              <Input
-                id="device-location"
-                value={form.location}
-                onChange={(e) => set("location", e.target.value)}
-                placeholder="Riyadh"
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Controller
+                name="location"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel htmlFor="device-location">
+                      {t("location")}
+                    </FieldLabel>
+                    <FieldContent>
+                      <Input
+                        id="device-location"
+                        placeholder="Riyadh"
+                        aria-invalid={fieldState.invalid}
+                        {...field}
+                      />
+                      <FieldError>{fieldState.error?.message}</FieldError>
+                    </FieldContent>
+                  </Field>
+                )}
               />
-            </Field>
 
-            <Field>
-              <FieldLabel htmlFor="device-industry">{t("industry")}</FieldLabel>
-              <Input
-                id="device-industry"
-                value={form.industry}
-                onChange={(e) => set("industry", e.target.value)}
-                placeholder="Retail"
+              <Controller
+                name="industry"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel htmlFor="device-industry">
+                      {t("industry")}
+                    </FieldLabel>
+                    <FieldContent>
+                      <Input
+                        id="device-industry"
+                        placeholder="Retail"
+                        aria-invalid={fieldState.invalid}
+                        {...field}
+                      />
+                      <FieldError>{fieldState.error?.message}</FieldError>
+                    </FieldContent>
+                  </Field>
+                )}
               />
-            </Field>
-          </div>
+            </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field>
-              <FieldLabel>{t("invoicingType.title")}</FieldLabel>
-              <Select
-                value={invoicingType}
-                onValueChange={(value) =>
-                  setInvoicingType(value as DeviceInvoicingType)
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent align="start">
-                  {invoicingTypes.map((value) => (
-                    <SelectItem key={value} value={value}>
-                      {t(`invoicingType.${value}`)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Controller
+                name="invoiceType"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>{t("invoicingType.title")}</FieldLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger
+                        className="w-full"
+                        aria-invalid={fieldState.invalid}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent align="start">
+                        {INVOICING_TYPES.map((value) => (
+                          <SelectItem key={value} value={value}>
+                            {t(`invoicingType.${value}`)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FieldError>{fieldState.error?.message}</FieldError>
+                  </Field>
+                )}
+              />
 
-            <Field>
-              <FieldLabel>{t("environment.title")}</FieldLabel>
-              <Select
-                value={environment}
-                onValueChange={(value) =>
-                  setEnvironment(value as ZatcaEnvironment)
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent align="start">
-                  {environments.map((value) => (
-                    <SelectItem key={value} value={value}>
-                      {t(`environment.${value}`)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
-          </div>
-        </FieldGroup>
+              <Controller
+                name="environment"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>{t("environment.title")}</FieldLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger
+                        className="w-full"
+                        aria-invalid={fieldState.invalid}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent align="start">
+                        {ENVIRONMENTS.map((value) => (
+                          <SelectItem key={value} value={value}>
+                            {t(`environment.${value}`)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FieldError>{fieldState.error?.message}</FieldError>
+                  </Field>
+                )}
+              />
+            </div>
+          </FieldGroup>
 
-        <DialogFooter>
-          <Button
-            variant="ghost"
-            onClick={() => handleOpenChange(false)}
-            disabled={register.isPending}
-          >
-            {t("cancel")}
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={!isValid || register.isPending}
-          >
-            {register.isPending ? t("registering") : t("submit")}
-          </Button>
-        </DialogFooter>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => handleOpenChange(false)}
+              disabled={register.isPending}
+            >
+              {t("cancel")}
+            </Button>
+            <Button type="submit" disabled={register.isPending}>
+              {register.isPending ? t("registering") : t("submit")}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

@@ -534,7 +534,10 @@
         "cancel": "إلغاء",
         "success": "تم تسجيل الجهاز",
         "error": "تعذّر تسجيل الجهاز",
-        "errorTitle": "فشل التسجيل"
+        "errorTitle": "فشل التسجيل",
+        "errors": {
+          "required": "هذا الحقل مطلوب"
+        }
       },
       "renew": {
         "trigger": "تجديد الشهادة",
@@ -597,7 +600,10 @@
         "cancel": "إلغاء",
         "success": "تمت إضافة المُكلف",
         "error": "تعذّرت إضافة المُكلف",
-        "errorTitle": "فشلت الإضافة"
+        "errorTitle": "فشلت الإضافة",
+        "errors": {
+          "required": "هذا الحقل مطلوب"
+        }
       },
       "emptyTitle": "لا يوجد مكلفون",
       "emptyDescription": "جرّب مصطلح بحث آخر.",

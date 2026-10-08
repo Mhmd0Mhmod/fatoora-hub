@@ -518,14 +518,26 @@
         "organizationUnitNameDescription": "Use the 10-digit TIN when the VAT group digit is 1.",
         "location": "Location",
         "industry": "Industry",
-        "invoicingType": "Invoicing type",
-        "environment": "Environment",
+        "invoicingType": {
+          "title": "Invoicing type",
+          "Standard": "Standard",
+          "Simplified": "Simplified",
+          "Both": "Both"
+        },
+        "environment": {
+          "title": "Environment",
+          "Simulation": "Simulation",
+          "Production": "Production"
+        },
         "submit": "Register",
         "registering": "Registering…",
         "cancel": "Cancel",
         "success": "Device registered",
         "error": "Couldn't register the device",
-        "errorTitle": "Registration failed"
+        "errorTitle": "Registration failed",
+        "errors": {
+          "required": "This field is required"
+        }
       },
       "renew": {
         "trigger": "Renew certificate",
@@ -588,7 +600,10 @@
         "cancel": "Cancel",
         "success": "Taxpayer created",
         "error": "Couldn't create the taxpayer",
-        "errorTitle": "Creation failed"
+        "errorTitle": "Creation failed",
+        "errors": {
+          "required": "This field is required"
+        }
       },
       "emptyTitle": "No taxpayers found",
       "emptyDescription": "Try a different search term.",
