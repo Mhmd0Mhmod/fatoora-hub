@@ -518,8 +518,17 @@
         "organizationUnitNameDescription": "استخدم الرقم التعريفي المكوّن من ١٠ أرقام عندما تكون خانة مجموعة ضريبية ١.",
         "location": "الموقع",
         "industry": "النشاط",
-        "invoicingType": "نوع الفوترة",
-        "environment": "البيئة",
+        "invoicingType": {
+          "title": "نوع الفوترة",
+          "Standard": "قياسية",
+          "Simplified": "مبسطة",
+          "Both": "كلاهما"
+        },
+        "environment": {
+          "title": "البيئة",
+          "Simulation": "محاكاة",
+          "Production": "إنتاج"
+        },
         "submit": "تسجيل",
         "registering": "جارٍ التسجيل…",
         "cancel": "إلغاء",

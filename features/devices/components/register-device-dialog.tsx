@@ -44,7 +44,11 @@ const EMPTY = {
   organizationUnitName: "",
 };
 
-const invoicingTypes: DeviceInvoicingType[] = ["Standard", "Simplified", "Both"];
+const invoicingTypes: DeviceInvoicingType[] = [
+  "Standard",
+  "Simplified",
+  "Both",
+];
 const environments: ZatcaEnvironment[] = ["Simulation", "Production"];
 
 export function RegisterDeviceDialog({ taxpayerId }: { taxpayerId: string }) {
@@ -53,19 +57,17 @@ export function RegisterDeviceDialog({ taxpayerId }: { taxpayerId: string }) {
 
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(EMPTY);
-  const [invoicingType, setInvoicingType] = useState<DeviceInvoicingType>(
-    "Standard",
-  );
-  const [environment, setEnvironment] = useState<ZatcaEnvironment>(
-    "Simulation",
-  );
+  const [invoicingType, setInvoicingType] =
+    useState<DeviceInvoicingType>("Standard");
+  const [environment, setEnvironment] =
+    useState<ZatcaEnvironment>("Simulation");
 
   const isValid = Boolean(
     form.otp.trim() &&
-      form.commonName.trim() &&
-      form.location.trim() &&
-      form.industry.trim() &&
-      form.organizationUnitName.trim(),
+    form.commonName.trim() &&
+    form.location.trim() &&
+    form.industry.trim() &&
+    form.organizationUnitName.trim(),
   );
 
   function set<K extends keyof typeof EMPTY>(key: K, value: string) {
@@ -198,7 +200,7 @@ export function RegisterDeviceDialog({ taxpayerId }: { taxpayerId: string }) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <Field>
-              <FieldLabel>{t("invoicingType")}</FieldLabel>
+              <FieldLabel>{t("invoicingType.title")}</FieldLabel>
               <Select
                 value={invoicingType}
                 onValueChange={(value) =>
@@ -219,7 +221,7 @@ export function RegisterDeviceDialog({ taxpayerId }: { taxpayerId: string }) {
             </Field>
 
             <Field>
-              <FieldLabel>{t("environment")}</FieldLabel>
+              <FieldLabel>{t("environment.title")}</FieldLabel>
               <Select
                 value={environment}
                 onValueChange={(value) =>
